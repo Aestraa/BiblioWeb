@@ -36,17 +36,21 @@ toc::[]
 
 == Equipe
 
-Projet réalisé par : 
+Projet réalisé par :
 
 - https://github.com/Aestraa[MOINY Yanis]
 - https://github.com/RMassip[MASSIP Romain] 
 - https://github.com/Ted971[BABEL Teddy]
 - https://github.com/Furiza31[WENDJANEH Hugo]
-- https://github.com/RepliKode[MIQUEU-DENJEAN Vincent] 
+- https://github.com/RepliKode[MIQUEU-DENJEAN Vincent]
 
+== Gestion de projet & Qualité      
+
+=== Informations utiles
+
+- `User stories` en cours : image:https://img.shields.io/github/issues/Aestraa/BiblioWeb/User%20Story?style=plastic[GitHub issues by-label]
 
 ## Features
-
 
 
 ## Installation
