@@ -48,7 +48,7 @@ Projet réalisé par :
 
 === Informations utiles
 
-- `User stories` en cours : image:https://img.shields.io/github/issues/Aestraa/BiblioWeb/User%20Story?style=plastic[GitHub issues by-label]
+- `User stories` en cours : image:https://img.shields.io/github/issues/Aestraa/BiblioWeb/User%20Story?style=plastic[GitHub issues by-label, link="https://github.com/Aestraa/BiblioWeb/issues?q=is:open+is:issue+label:%22User+Story%22"]
 
 ## Features
 
