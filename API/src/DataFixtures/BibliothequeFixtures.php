@@ -16,14 +16,18 @@ class BibliothequeFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        // création du faker
         $faker = Factory::create('fr_FR');
+
+        // définir le nombre d'entités à créer
         $nombreAdherents = 10;
         $nombreAuteurs = 12;
         $nombreEmprunts = 10;
         $nombreLivres = 20;
-        $nombreReservations = 10;
         $nomCategories = ["romans français", "romans étrangers", "essais politiques", "essais économiques"];
+        $livresDejaReserves = [];
 
+        // les tableaux qui vont contenir les entités
         $adherents = [];
         $auteurs = [];
         $categories = [];
@@ -31,6 +35,7 @@ class BibliothequeFixtures extends Fixture
         $livres = [];
         $reservations = [];
 
+        // création des adhérents
         for ($i = 0; $i < $nombreAdherents; $i++) {
             $adherent = new Adherent();
             $adherent->setDateAdhesion($faker->dateTimeBetween('-5 years', 'now'));
@@ -44,9 +49,9 @@ class BibliothequeFixtures extends Fixture
 
             $adherents[] = $adherent;
             $manager->persist($adherent);
-            $manager->flush();
         }
 
+        // création des auteurs
         for ($i = 0; $i < $nombreAuteurs; $i++) {
             $auteur = new Auteur();
             $auteur->setNom($faker->lastName);
@@ -59,9 +64,9 @@ class BibliothequeFixtures extends Fixture
 
             $auteurs[] = $auteur;
             $manager->persist($auteur);
-            $manager->flush();
         }
 
+        // création des catégories
         for ($i = 0; $i < count($nomCategories); $i++) {
             $categorie = new Categorie();
             $categorie->setNom($nomCategories[$i]);
@@ -69,17 +74,28 @@ class BibliothequeFixtures extends Fixture
 
             $categories[] = $categorie;
             $manager->persist($categorie);
-            $manager->flush();
         }
 
+        // création des livres
         for ($i = 0; $i < $nombreLivres; $i++) {
             $livre = new Livre();
             $livre->setTitre($faker->sentence(3));
             $livre->setDateSortie($faker->dateTimeBetween('-20 years', 'now'));
             $livre->setLangue($faker->languageCode());
             $livre->setPhotoCouverture("https://picsum.photos/400/600");
+
+            // ajout des auteurs
+            $nombreAuteursPourLivre = rand(1, 3);
+            $auteursAleatoires = (array)array_rand($auteurs, $nombreAuteursPourLivre);
+            foreach ($auteursAleatoires as $index) {
+                $livre->addAuteur($auteurs[$index]);
+            }
+
+            $livres[] = $livre;
+            $manager->persist($livre);
         }
 
+        // création des emprunts
         for ($i = 0; $i < $nombreEmprunts; $i++) {
             $emprunt = new Emprunt();
             $emprunt->setDateEmprunt($faker->dateTimeBetween('-5 years', 'now'));
@@ -89,19 +105,51 @@ class BibliothequeFixtures extends Fixture
 
             $emprunts[] = $emprunt;
             $manager->persist($emprunt);
-            $manager->flush();
         }
 
-        for ($i = 0; $i < $nombreReservations; $i++) {
-            $reservation = new Reservations();
-            $reservation->setDateResa($faker->dateTimeBetween('-5 years', 'now'));
-            $reservation->setFaire($adherents[$faker->numberBetween(0, count($adherents) - 1)]);
-            $reservation->setLier($livres[$faker->numberBetween(0, count($livres) - 1)]);
+        // création des réservations
+        foreach ($adherents as $adherent) {
+            $nombreReservationsPourAdherent = rand(0, 3);
+            for ($j = 0; $j < $nombreReservationsPourAdherent; $j++) {
+                // on s'assure que chaque livre ne soit réservé qu'une seule fois
+                if (count($livresDejaReserves) >= count($livres)) break;
 
-            $reservations[] = $reservation;
-            $manager->persist($reservation);
-            $manager->flush();
+                // on choisit un livre au hasard qui n'a pas encore été réservé
+                $livrePourReservation = null;
+                do {
+                    $indexLivre = $faker->numberBetween(0, count($livres) - 1);
+                    if (!in_array($indexLivre, $livresDejaReserves)) {
+                        $livrePourReservation = $livres[$indexLivre];
+                        $livresDejaReserves[] = $indexLivre;
+                        break;
+                    }
+                } while (true);
+        
+                // on crée la réservation
+                if ($livrePourReservation !== null) {
+                    $reservation = new Reservations();
+                    $reservation->setDateResa($faker->dateTimeBetween('-5 years', 'now'));
+                    $reservation->setDateResaFin($faker->dateTimeBetween('-5 years', 'now'));
+                    $reservation->setFaire($adherent);
+                    $reservation->setLier($livrePourReservation);
+                
+                    $reservations[] = $reservation;
+                    $manager->persist($reservation);
+                }
+            }
         }
 
+        // ajout des catégories aux livres
+        foreach ($livres as $livre) {
+            $nombreCategoriesPourLivre = rand(1, 3);
+            $categoriesAleatoires = (array)array_rand($categories, $nombreCategoriesPourLivre);
+            foreach ($categoriesAleatoires as $index) {
+                $livre->addCategory($categories[$index]);
+            }
+            $manager->persist($livre);
+        }
+        
+        // enregistrement des entités
+        $manager->flush();
     }
 }
