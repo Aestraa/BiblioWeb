@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationsRepository;
+use App\Entity\Adherent;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReservationsRepository;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
 class Reservations
@@ -62,5 +63,12 @@ class Reservations
         $this->Lier = $Lier;
 
         return $this;
+    }
+
+    // Définie dateEmprunt à la date d'aujourd'hui si aucune valeur n'est donnée ou null. 
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->dateResa = $this->dateResa ?? new \DateTime();
     }
 }

@@ -151,11 +151,14 @@ class Adherent
 
     public function addEmprunt(Emprunt $emprunt): static
     {
-        if (!$this->emprunts->contains($emprunt)) {
-            $this->emprunts->add($emprunt);
-            $emprunt->addRelier($this);
+        if (count($this->emprunts) < 5) {
+            if (!$this->emprunts->contains($emprunt)) {
+                $this->emprunts->add($emprunt);
+                $emprunt->addRelier($this);
+            }
+        } else {
+            throw new \Exception("Un adhérent ne peut pas avoir plus de 5 emprunts.");
         }
-
         return $this;
     }
 
@@ -190,9 +193,13 @@ class Adherent
 
     public function addReservation(Reservations $reservation): static
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setFaire($this);
+        if (count($this->reservations) < 3) {
+            if (!$this->reservations->contains($reservation)) {
+                $this->reservations->add($reservation);
+                $reservation->setFaire($this);
+            }
+        } else {
+            throw new \Exception("Un adhérent ne peut pas avoir plus de 3 réservations.");
         }
 
         return $this;
