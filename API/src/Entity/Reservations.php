@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Adherent;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationsRepository;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
@@ -16,13 +17,16 @@ class Reservations
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateResa = null;
+    private ?\DateTime $dateResa = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Adherent $Faire = null;
 
     #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
     private ?Livre $Lier = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTime $dateResaFin = null;
 
     public function getId(): ?int
     {
@@ -65,10 +69,34 @@ class Reservations
         return $this;
     }
 
+    public function getDateResaFin(): ?\DateTimeInterface
+    {
+        return $this->dateResaFin;
+    }
+
+    public function setDateResaFin(\DateTimeInterface $dateResaFin): static
+    {
+        $this->dateResaFin = $dateResaFin;
+
+        return $this;
+    }
+
     // Définie dateEmprunt à la date d'aujourd'hui si aucune valeur n'est donnée ou null. 
     #[ORM\PrePersist]
     public function prePersist()
     {
         $this->dateResa = $this->dateResa ?? new \DateTime();
+        $this->dateResaFin = (clone $this->dateResa)->modify('+7 days');
+    }
+
+    
+    #[ORM\PreUpdate]
+    public function preUpdate(EntityManagerInterface $entityManager)
+    {
+        // Si la dateRetour est dépassée, supprimer l'entité
+        if ($this->dateResaFin !== null && $this->dateResaFin < new \DateTime()) {
+            $entityManager->remove($this);
+            $entityManager->flush();
+        }
     }
 }
