@@ -9,6 +9,7 @@ use App\Entity\Categorie;
 use App\Entity\Emprunt;
 use App\Entity\Livre;
 use App\Entity\Reservations;
+use App\Entity\Utilisateur;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -20,7 +21,10 @@ class BibliothequeFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         // définir le nombre d'entités à créer
+        // $roles = ["ROLE_ADHERENT", "ROLE_BIBLIOTHECAIRE", "ROLE_RESPONSABLE"];
         $nombreAdherents = 10;
+        $nombreResponsables = 1;
+        $nombreBibliothecaires = 2;
         $nombreAuteurs = 12;
         $nombreEmprunts = 10;
         $nombreLivres = 20;
@@ -34,21 +38,39 @@ class BibliothequeFixtures extends Fixture
         $emprunts = [];
         $livres = [];
         $reservations = [];
+        $users = [];
+
+        for ($i = 0; $i < $nombreAdherents + $nombreResponsables + $nombreBibliothecaires; $i++) {
+            $user = new Utilisateur();
+            $user->setEmail($faker->email);
+            $user->setNom($faker->lastName);
+            $user->setPrenom($faker->firstName);
+            $user->setDateNaiss($faker->dateTimeBetween('-50 years', '-20 years'));
+            $user->setAdressePostale($faker->address);
+            $user->setNumTel($faker->phoneNumber);
+            $user->setPhoto("https://picsum.photos/300/300");
+            $user->setPassword($faker->password);
+            
+            if ($i < $nombreResponsables) {
+                $user->setRoles(["ROLE_RESPONSABLE"]);
+            } elseif ($i < $nombreResponsables + $nombreBibliothecaires) {
+                $user->setRoles(["ROLE_BIBLIOTHECAIRE"]);
+            } else {
+                $user->setRoles(["ROLE_ADHERENT"]);
+            }
+            
+            $users[] = $user;
+            $manager->persist($user);
+        }
 
         // création des adhérents
-        for ($i = 0; $i < $nombreAdherents; $i++) {
-            $adherent = new Adherent();
-            $adherent->setDateAdhesion($faker->dateTimeBetween('-5 years', 'now'));
-            $adherent->setNom($faker->lastName);
-            $adherent->setPrenom($faker->firstName);
-            $adherent->setDateNaiss($faker->dateTimeBetween('-50 years', '-20 years'));
-            $adherent->setEmail($faker->email);
-            $adherent->setAdressePostale($faker->address);
-            $adherent->setNumTel($faker->phoneNumber);
-            $adherent->setPhoto("https://picsum.photos/300/300");
-
-            $adherents[] = $adherent;
-            $manager->persist($adherent);
+        foreach ($users as $user) {
+            if (in_array("ROLE_ADHERENT", $user->getRoles())) {
+                $adherent = new Adherent();
+                $adherent->setDateAdhesion($faker->dateTimeBetween('-5 years', 'now'));
+                $adherents[] = $adherent;
+                $manager->persist($adherent);
+            }
         }
 
         // création des auteurs
