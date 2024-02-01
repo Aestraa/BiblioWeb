@@ -10,6 +10,7 @@ use App\Entity\Emprunt;
 use App\Entity\Livre;
 use App\Entity\Reservations;
 use App\Entity\Utilisateur;
+use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -41,6 +42,7 @@ class BibliothequeFixtures extends Fixture
         $users = [];
 
         for ($i = 0; $i < $nombreAdherents + $nombreResponsables + $nombreBibliothecaires; $i++) {
+            $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now'));
             $user = new Utilisateur();
             $user->setEmail($faker->email);
             $user->setNom($faker->lastName);
@@ -50,6 +52,7 @@ class BibliothequeFixtures extends Fixture
             $user->setNumTel($faker->phoneNumber);
             $user->setPhoto("https://picsum.photos/300/300");
             $user->setPassword($faker->password);
+            $user->setCreatedAt($createdAt);
             
             if ($i < $nombreResponsables) {
                 $user->setRoles(["ROLE_RESPONSABLE"]);
@@ -68,14 +71,16 @@ class BibliothequeFixtures extends Fixture
             if (in_array("ROLE_ADHERENT", $user->getRoles())) {
                 $adherent = new Adherent();
                 $adherent->setDateAdhesion($faker->dateTimeBetween('-5 years', 'now'));
-                $adherents[] = $adherent;
                 $adherent->setUtilisateur($user);
+
+                $adherents[] = $adherent;
                 $manager->persist($adherent);
             }
         }
 
         // création des auteurs
         for ($i = 0; $i < $nombreAuteurs; $i++) {
+            $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now'));
             $auteur = new Auteur();
             $auteur->setNom($faker->lastName);
             $auteur->setPrenom($faker->firstName);
@@ -84,6 +89,7 @@ class BibliothequeFixtures extends Fixture
             $auteur->setNationalite($faker->country);
             $auteur->setPhoto("https://picsum.photos/300/300");
             $auteur->setDescription($faker->text);
+            $auteur->setCreatedAt($createdAt);
 
             $auteurs[] = $auteur;
             $manager->persist($auteur);
@@ -91,9 +97,11 @@ class BibliothequeFixtures extends Fixture
 
         // création des catégories
         for ($i = 0; $i < count($nomCategories); $i++) {
+            $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now'));
             $categorie = new Categorie();
             $categorie->setNom($nomCategories[$i]);
             $categorie->setDescription($faker->text);
+            $categorie->setCreatedAt($createdAt);
 
             $categories[] = $categorie;
             $manager->persist($categorie);
@@ -101,11 +109,13 @@ class BibliothequeFixtures extends Fixture
 
         // création des livres
         for ($i = 0; $i < $nombreLivres; $i++) {
+            $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now'));
             $livre = new Livre();
             $livre->setTitre($faker->sentence(3));
             $livre->setDateSortie($faker->dateTimeBetween('-20 years', 'now'));
             $livre->setLangue($faker->languageCode());
             $livre->setPhotoCouverture("https://picsum.photos/400/600");
+            $livre->setCreatedAt($createdAt);
 
             // ajout des auteurs
             $nombreAuteursPourLivre = rand(1, 3);
@@ -120,11 +130,13 @@ class BibliothequeFixtures extends Fixture
 
         // création des emprunts
         for ($i = 0; $i < $nombreEmprunts; $i++) {
+            $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now'));
             $emprunt = new Emprunt();
             $emprunt->setDateEmprunt($faker->dateTimeBetween('-5 years', 'now'));
             $emprunt->setDateRetour($faker->dateTimeBetween('-5 years', 'now'));
             $emprunt->setCorrespondre($livres[$faker->numberBetween(0, count($livres) - 1)]);
             $emprunt->addRelier($adherents[$faker->numberBetween(0, count($adherents) - 1)]);
+            $emprunt->setCreatedAt($createdAt);
 
             $emprunts[] = $emprunt;
             $manager->persist($emprunt);
@@ -150,11 +162,13 @@ class BibliothequeFixtures extends Fixture
         
                 // on crée la réservation
                 if ($livrePourReservation !== null) {
+                    $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now'));
                     $reservation = new Reservations();
                     $reservation->setDateResa($faker->dateTimeBetween('-5 years', 'now'));
                     $reservation->setDateResaFin($faker->dateTimeBetween('-5 years', 'now'));
                     $reservation->setFaire($adherent);
                     $reservation->setLier($livrePourReservation);
+                    $reservation->setCreatedAt($createdAt);
                 
                     $reservations[] = $reservation;
                     $manager->persist($reservation);
