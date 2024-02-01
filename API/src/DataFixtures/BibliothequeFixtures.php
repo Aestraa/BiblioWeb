@@ -69,6 +69,7 @@ class BibliothequeFixtures extends Fixture
                 $adherent = new Adherent();
                 $adherent->setDateAdhesion($faker->dateTimeBetween('-5 years', 'now'));
                 $adherents[] = $adherent;
+                $adherent->setUtilisateur($user);
                 $manager->persist($adherent);
             }
         }
