@@ -19,32 +19,14 @@ class Adherent
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateAdhesion = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $prenom = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateNaiss = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $adressePostale = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $numTel = null;
-
     #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
     private Collection $emprunts;
 
-    #[ORM\Column(length: 255)]
-    private ?string $photo = null;
-
     #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class)]
     private Collection $reservations;
+
+    #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]
+    private ?Utilisateur $utilisateur = null;
 
     public function __construct()
     {
@@ -65,78 +47,6 @@ class Adherent
     public function setDateAdhesion(\DateTimeInterface $dateAdhesion): static
     {
         $this->dateAdhesion = $dateAdhesion;
-
-        return $this;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getDateNaiss(): ?\DateTimeInterface
-    {
-        return $this->dateNaiss;
-    }
-
-    public function setDateNaiss(\DateTimeInterface $dateNaiss): static
-    {
-        $this->dateNaiss = $dateNaiss;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getAdressePostale(): ?string
-    {
-        return $this->adressePostale;
-    }
-
-    public function setAdressePostale(string $adressePostale): static
-    {
-        $this->adressePostale = $adressePostale;
-
-        return $this;
-    }
-
-    public function getNumTel(): ?string
-    {
-        return $this->numTel;
-    }
-
-    public function setNumTel(string $numTel): static
-    {
-        $this->numTel = $numTel;
 
         return $this;
     }
@@ -171,18 +81,6 @@ class Adherent
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): static
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Reservations>
      */
@@ -213,6 +111,28 @@ class Adherent
                 $reservation->setFaire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($utilisateur === null && $this->utilisateur !== null) {
+            $this->utilisateur->setEst(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($utilisateur !== null && $utilisateur->getEst() !== $this) {
+            $utilisateur->setEst($this);
+        }
+
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
