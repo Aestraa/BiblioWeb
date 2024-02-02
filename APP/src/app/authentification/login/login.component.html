@@ -1,16 +1,51 @@
 <fieldset>
   <legend>Login</legend>
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="email">Email</label>
-      <input type="email" formControlName="email" required />
+      <input type="email" formControlName="email" required id="email" />
+      <p
+        *ngIf="loginForm.get('email')?.touched &&
+        loginForm.get('email')?.errors?.['required']"
+        class="small"
+      >
+        Email is required.
+      </p>
+      <p
+        *ngIf="loginForm.get('email')?.touched &&
+        loginForm.get('email')?.errors?.['email']"
+        class="small"
+      >
+        Please enter a valid email address.
+      </p>
     </div>
     <div>
       <label for="password">Password</label>
-      <input type="password" formControlName="password" required />
+      <input
+        type="password"
+        formControlName="password"
+        required
+        id="password"
+      />
+      <p
+        *ngIf="loginForm.get('password')?.touched &&
+        loginForm.get('password')?.errors?.['required']"
+        class="small"
+      >
+        Password is required.
+      </p>
+      <p
+        *ngIf=" loginForm.get('password')?.touched &&
+        loginForm.get('password')?.errors?.['minlength']"
+        class="small"
+      >
+        Password must be at least 6 characters long.
+      </p>
     </div>
     <div>
-      <button type="submit">Submit</button>
+      <button type="submit" [disabled]="!loginForm.valid">
+        {{ loading ? "Loading..." : "Submit" }}
+      </button>
     </div>
   </form>
   <div>
