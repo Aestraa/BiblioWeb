@@ -2,18 +2,17 @@
 
 namespace App\Controller\Api;
 
+use App\Repository\EmpruntRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EmpruntController extends AbstractController
 {
-    #[Route('/api/emprunt', name: 'app_api_emprunt')]
-    public function index(): JsonResponse
+    #[Route('/api/emprunts', methods: ['GET'])]
+    public function index(EmpruntRepository $empruntRepository): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/Api/EmpruntController.php',
-        ]);
+        $emprunts = $empruntRepository->findAll();
+        return $this->json($emprunts, 200, [], ['groups' => 'emprunt:read']);
     }
 }

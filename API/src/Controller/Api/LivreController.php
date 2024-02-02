@@ -2,18 +2,18 @@
 
 namespace App\Controller\Api;
 
+use App\Repository\LivreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LivreController extends AbstractController
 {
-    #[Route('/api/livre', name: 'app_api_livre')]
-    public function index(): JsonResponse
+
+    #[Route('/api/livres', methods: ['GET'])]
+    public function index(LivreRepository $livreRepository): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/Api/LivreController.php',
-        ]);
+        $livres = $livreRepository->findAll();
+        return $this->json($livres, 200, [], ['groups' => 'livre:read']);
     }
 }
