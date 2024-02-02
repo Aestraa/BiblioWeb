@@ -1,0 +1,56 @@
+<fieldset>
+  <legend>Register</legend>
+  <form>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" formControlName="email" required />
+    </div>
+    <div>
+      <label for="birthDate">Birth date</label>
+      <input type="date" formControlName="birthDate" required />
+    </div>
+    <div class="group">
+      <div>
+        <label for="firstname">Firstname</label>
+        <input type="text" formControlName="firstname" required />
+      </div>
+      <div>
+        <label for="lastname">Lastname</label>
+        <input type="text" formControlName="lastname" required />
+      </div>
+    </div>
+    <div class="group">
+      <div>
+        <label for="address">Address</label>
+        <input type="text" formControlName="address" required />
+      </div>
+      <div>
+        <label for="country">Country</label>
+        <input type="text" formControlName="country" required />
+      </div>
+    </div>
+    <div>
+      <label for="phone">Phone</label>
+      <input type="tel" formControlName="phone" required />
+    </div>
+    <div class="group">
+      <div>
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" required />
+      </div>
+      <div>
+        <label for="cpassword">Confirm password</label>
+        <input type="cpassword" formControlName="cpassword" required />
+      </div>
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+  <div>
+    <p>
+      Already have an account? You can login yourself
+      <a routerLink="/auth/login">here!</a>
+    </p>
+  </div>
+</fieldset>

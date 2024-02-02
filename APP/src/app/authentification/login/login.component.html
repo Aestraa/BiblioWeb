@@ -1,0 +1,22 @@
+<fieldset>
+  <legend>Login</legend>
+  <form>
+    <div>
+      <label for="email">Email</label>
+      <input type="email" formControlName="email" required />
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="password" formControlName="password" required />
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+  <div>
+    <p>
+      Don't have an account? You can register yourself
+      <a routerLink="/auth/register">here!</a>
+    </p>
+  </div>
+</fieldset>

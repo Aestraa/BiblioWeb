@@ -1,0 +1,97 @@
+fieldset {
+  position: absolute;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  min-width: 250px;
+  height: auto;
+  top: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
+}
+fieldset legend {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--secondary);
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 0px 10px;
+}
+
+fieldset form div {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+}
+
+fieldset form div.group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+}
+
+fieldset form div input {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
+  transition-duration: 0.3s;
+}
+
+fieldset form div input:focus {
+  border: 1px solid #cebca5;
+  box-shadow: 0 0 5px #cebca5;
+}
+
+fieldset form div button {
+  position: relative;
+  display: block;
+  width: 50%;
+  padding: 5px 10px;
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
+  transition-duration: 0.3s;
+  background-color: var(--primary);
+  color: var(--secondary);
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+fieldset form div button:hover {
+  background-color: var(--secondary);
+  color: var(--primary);
+}
+
+fieldset div p {
+  text-align: center;
+}
+
+fieldset div p a {
+  color: var(--blue);
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.error {
+  color: var(--red);
+  border: 1px solid var(--red);
+}
+
+.success {
+  color: var(--green);
+  border: 1px solid var(--green);
+}
