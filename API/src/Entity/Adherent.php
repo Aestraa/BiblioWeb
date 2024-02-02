@@ -6,6 +6,7 @@ use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdherentRepository::class)]
@@ -14,18 +15,23 @@ class Adherent
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['adherent:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeInterface $dateAdhesion = null;
 
     #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
+    #[Groups(['adherent:read','adherent:write'])]
     private Collection $emprunts;
 
     #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class)]
+    #[Groups(['adherent:read','adherent:write'])]
     private Collection $reservations;
 
     #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?Utilisateur $utilisateur = null;
 
     public function __construct()

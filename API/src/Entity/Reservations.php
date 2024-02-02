@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationsRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
 class Reservations
@@ -17,21 +18,26 @@ class Reservations
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTime $dateResa = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?Adherent $Faire = null;
 
     #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?Livre $Lier = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTime $dateResaFin = null;
 
     #[ORM\Column]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int

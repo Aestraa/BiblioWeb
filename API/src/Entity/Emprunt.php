@@ -6,6 +6,7 @@ use App\Repository\EmpruntRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
@@ -17,15 +18,18 @@ class Emprunt
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeInterface $dateEmprunt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeInterface $dateRetour = null;
 
     #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts')]
     private Collection $Relier;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?Livre $Correspondre = null;
 
     #[ORM\Column]

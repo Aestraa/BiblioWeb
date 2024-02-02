@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre
@@ -17,15 +18,19 @@ class Livre
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeInterface $dateSortie = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['adherent:read','adherent:write'])]
     private ?string $photoCouverture = null;
 
     #[ORM\OneToMany(mappedBy: 'Correspondre', targetEntity: Emprunt::class)]
@@ -35,9 +40,11 @@ class Livre
     private ?Reservations $reservations = null;
 
     #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'Ecrire')]
+    #[Groups(['adherent:read','adherent:write'])]
     private Collection $auteurs;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'Appartenir')]
+    #[Groups(['adherent:read','adherent:write'])]
     private Collection $categories;
 
     #[ORM\Column]
