@@ -18,18 +18,19 @@ class Reservations
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?\DateTime $dateResa = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[Groups(['reservation:read','reservation:write'])]
     private ?Adherent $Faire = null;
 
     #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?Livre $Lier = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?\DateTime $dateResaFin = null;
 
     #[ORM\Column]

@@ -2,18 +2,17 @@
 
 namespace App\Controller\Api;
 
+use App\Repository\AuteurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AuteurController extends AbstractController
 {
-    #[Route('/api/auteur', name: 'app_api_auteur')]
-    public function index(): JsonResponse
+    #[Route('/api/auteurs', methods: ['GET'])]
+    public function index(AuteurRepository $auteurRepository): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/Api/AuteurController.php',
-        ]);
+        $auteurs = $auteurRepository->findAll();
+        return $this->json($auteurs, 200, [], ['groups' => 'auteur:read']);
     }
 }

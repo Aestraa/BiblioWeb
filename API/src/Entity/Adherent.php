@@ -19,7 +19,7 @@ class Adherent
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?\DateTimeInterface $dateAdhesion = null;
 
     #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
@@ -31,7 +31,7 @@ class Adherent
     private Collection $reservations;
 
     #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?Utilisateur $utilisateur = null;
 
     public function __construct()

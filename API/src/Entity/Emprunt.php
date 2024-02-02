@@ -18,18 +18,19 @@ class Emprunt
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','livre:read','livre:write'])]
     private ?\DateTimeInterface $dateEmprunt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','livre:read','livre:write'])]
     private ?\DateTimeInterface $dateRetour = null;
 
     #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts')]
+    #[Groups(['emprunt:read','emprunt:write'])]
     private Collection $Relier;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write'])]
     private ?Livre $Correspondre = null;
 
     #[ORM\Column]

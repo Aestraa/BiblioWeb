@@ -18,34 +18,35 @@ class Auteur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?string $prenom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?\DateTimeInterface $dateNaissance = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?\DateTimeInterface $dateDeces = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?string $nationalite = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?string $photo = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['auteur:read','auteur:write','livre:read','livre:write'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'auteurs')]
+    #[Groups(['auteur:read','auteur:write'])]
     private Collection $Ecrire;
 
     #[ORM\Column]

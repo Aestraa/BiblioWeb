@@ -17,14 +17,15 @@ class Categorie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','auteur:read','auteur:write','categorie:read','categorie:write','livre:read','livre:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','auteur:read','auteur:write','categorie:read','categorie:write','livre:read','livre:write'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'categories')]
+    #[Groups(['categorie:read','categorie:write'])]
     private Collection $Appartenir;
 
     #[ORM\Column]

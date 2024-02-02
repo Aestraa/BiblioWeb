@@ -18,35 +18,35 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?string $prenom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?string $adressePostale = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?string $numTel = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private ?string $photo = null;
 
     #[ORM\Column]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
     private array $roles = [];
 
     /**

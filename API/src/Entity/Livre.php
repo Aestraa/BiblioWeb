@@ -15,36 +15,39 @@ class Livre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['livre:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','auteur:read','auteur:write','categorie:read','categorie:write','emprunt:read','emprunt:write','livre:read','livre:write','reservation:read','reservation:write'])]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','auteur:read','auteur:write','categorie:read','categorie:write','emprunt:read','emprunt:write','livre:read','livre:write','reservation:read','reservation:write'])]
     private ?\DateTimeInterface $dateSortie = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','auteur:read','auteur:write','categorie:read','categorie:write','emprunt:read','emprunt:write','livre:read','livre:write','reservation:read','reservation:write'])]
     private ?string $langue = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','auteur:read','auteur:write','categorie:read','categorie:write','emprunt:read','emprunt:write','livre:read','livre:write','reservation:read','reservation:write'])]
     private ?string $photoCouverture = null;
 
     #[ORM\OneToMany(mappedBy: 'Correspondre', targetEntity: Emprunt::class)]
+    #[Groups(['livre:read','livre:write'])]
     private Collection $emprunts;
 
     #[ORM\OneToOne(mappedBy: 'Lier', cascade: ['persist', 'remove'])]
+    #[Groups(['livre:read','livre:write'])]
     private ?Reservations $reservations = null;
 
     #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'Ecrire')]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','livre:read','livre:write','livre:read','livre:write'])]
     private Collection $auteurs;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'Appartenir')]
-    #[Groups(['adherent:read','adherent:write'])]
+    #[Groups(['adherent:read','auteur:read','auteur:write','livre:read','livre:write'])]
     private Collection $categories;
 
     #[ORM\Column]
