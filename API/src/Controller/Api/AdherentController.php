@@ -2,7 +2,9 @@
 
 namespace App\Controller\Api;
 
+use DateTimeImmutable;
 use App\Entity\Adherent;
+use App\Entity\Utilisateur;
 use App\Repository\AdherentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,19 +21,40 @@ class AdherentController extends AbstractController
         return $this->json($adherents, 200, [], ['groups' => 'adherent:read']);
     }
 
-    /*
+    
     #[Route('/api/adherent', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         // version simplifiée qui ne gère pas la catégorie ni la date
         $data = json_decode($request->getContent(), true);
+
+        $utilisateur = new Utilisateur();
+        $utilisateur->setEmail($data['Email']);
+        $utilisateur->setNom($data['Nom']);
+        $utilisateur->setPrenom($data['Prenom']);
+        $dateNaiss = new DateTimeImmutable($data['DateNaiss']);
+        $utilisateur->setDateNaiss($dateNaiss);
+        $utilisateur->setAdressePostale($data['AdressePostale']);
+        $utilisateur->setNumTel($data['NumTel']);
+        $utilisateur->setPhoto($data['Photo']);
+        $utilisateur->addRoles('ROLE_ADHERENT');
+        $utilisateur->setPassword($data['Password']);
+
+        $date = new DateTimeImmutable("now");
+        $utilisateur->setCreatedAt($date);
+        $utilisateur->setUpdatedAt($date);
+
         $adherent = new Adherent();
-        $adherent->setTitre($data['titre']);
-        $adherent->setDescription($data['description']);
+        $dateAdhesion = new DateTimeImmutable("now");
+        $adherent->setDateAdhesion($dateAdhesion);
+
+        $adherent->setUtilisateur($utilisateur);
+
+        $entityManager->persist($utilisateur);
         $entityManager->persist($adherent);
         $entityManager->flush();
 
         return $this->json($adherent, JsonResponse::HTTP_CREATED);
     }
-    */
+
 }

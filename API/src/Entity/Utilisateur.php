@@ -31,7 +31,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
-    private ?\DateTimeInterface $dateNaiss = null;
+    private ?\DateTimeImmutable $dateNaiss = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
@@ -105,12 +105,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateNaiss(): ?\DateTimeInterface
+    public function getDateNaiss(): ?\DateTimeImmutable
     {
         return $this->dateNaiss;
     }
 
-    public function setDateNaiss(\DateTimeInterface $dateNaiss): static
+    public function setDateNaiss(\DateTimeImmutable $dateNaiss): static
     {
         $this->dateNaiss = $dateNaiss;
 
@@ -174,6 +174,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
+
+    public function addRoles(string $roles): static
+    {
+        $this->roles[] = $roles;
+    
+        return $this;
+    }
+    
 
     public function setRoles(array $roles): static
     {
