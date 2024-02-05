@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use DateTime;
 use DateTimeImmutable;
 use App\Entity\Adherent;
 use App\Entity\Utilisateur;
@@ -25,14 +26,13 @@ class AdherentController extends AbstractController
     #[Route('/api/adherent', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        // version simplifiée qui ne gère pas la catégorie ni la date
         $data = json_decode($request->getContent(), true);
 
         $utilisateur = new Utilisateur();
         $utilisateur->setEmail($data['Email']);
         $utilisateur->setNom($data['Nom']);
         $utilisateur->setPrenom($data['Prenom']);
-        $dateNaiss = new DateTimeImmutable($data['DateNaiss']);
+        $dateNaiss = new DateTime($data['DateNaiss']);
         $utilisateur->setDateNaiss($dateNaiss);
         $utilisateur->setAdressePostale($data['AdressePostale']);
         $utilisateur->setNumTel($data['NumTel']);
