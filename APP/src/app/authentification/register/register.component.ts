@@ -47,16 +47,6 @@ export class RegisterComponent {
       console.log('Registration form is valid', this.registerForm.value);
       this.loading = true;
       console.log('Form Value:', this.registerForm.value);
-      // this.http.post('URL_DE_VOTRE_API', this.loginForm.value).subscribe(
-      //   response => {
-      //     console.log('Success!', response);
-      //     // Gérez la réponse ici
-      //   },
-      //   error => {
-      //     console.error('Error!', error);
-      //     // Gérez les erreurs ici
-      //   }
-      // );
       this.loading = false;
     } else {
       console.error('Registration form is not valid');
