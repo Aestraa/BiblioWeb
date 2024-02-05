@@ -15,13 +15,60 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdherentController extends AbstractController
 {
+    /*
     #[Route('/api/adherents', methods: ['GET'])]
     public function index(AdherentRepository $adherentRepository): JsonResponse
     {
         $adherents = $adherentRepository->findAll();
         return $this->json($adherents, 200, [], ['groups' => 'adherent:read']);
     }
+    */
 
+
+    //put pour modif
+    #[Route('/api/adherent/modif/{id}', methods: ['PUT'])]
+    public function update(Request $request, EntityManagerInterface $entityManager, Adherent $adherent): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // Mise à jour des informations de l'utilisateur lié à l'adhérent
+        $utilisateur = $adherent->getUtilisateur();
+        $utilisateur->setEmail($data['Email']);
+        $utilisateur->setNom($data['Nom']);
+        $utilisateur->setPrenom($data['Prenom']);
+        $dateNaiss = new DateTime($data['DateNaiss']);
+        $utilisateur->setDateNaiss($dateNaiss);
+        $utilisateur->setAdressePostale($data['AdressePostale']);
+        $utilisateur->setNumTel($data['NumTel']);
+        $utilisateur->setPhoto($data['Photo']);
+        //mise à jour du mot de passe si nécessaire
+
+        // Mise à jour de la date de modification
+        $utilisateur->setUpdatedAt(new DateTimeImmutable("now"));
+
+        // Mise à jour de la date d'adhésion de l'adhérent
+        $adherent->setDateAdhesion(new DateTimeImmutable("now"));
+
+        $entityManager->flush();
+
+        return $this->json($adherent, JsonResponse::HTTP_OK);
+    }
+
+    //get adherent précis // pas d'authentification
+    #[Route('/api/adherent/{id}', methods: ['GET'])]
+    public function getById(Adherent $adherent): JsonResponse
+    {
+        // Vous pouvez accéder directement à l'adhérent grâce à l'injection de dépendances
+        // Symfony chargera l'adhérent correspondant à l'ID passé dans l'URL
+
+        // Vérifiez si l'adhérent existe
+        if (!$adherent) {
+            return $this->json(['message' => 'Adhérent non trouvé.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        // Retournez l'adhérent en tant que réponse JSON
+        return $this->json($adherent, JsonResponse::HTTP_OK, [], ['groups' => 'adherent:read']);
+    }
     
     #[Route('/api/adherent', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
