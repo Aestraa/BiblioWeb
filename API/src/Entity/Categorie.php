@@ -10,7 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
-#[ApiResource()]
 class Categorie
 {
     #[ORM\Id]

@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: AdherentRepository::class)]
-#[ApiResource()]
 class Adherent
 {
     #[ORM\Id]

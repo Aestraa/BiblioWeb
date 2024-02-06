@@ -15,10 +15,10 @@ import { Livre } from './livre';
 export class Reservation {
   constructor(
     public id: number,
-    public date_resa: Date,
-    public date_resa_fin: Date,
-    public created_at: Date,
-    public updated_at: Date,
+    public dateResa: Date,
+    public dateResaFin: Date,
+    public createdAt: Date,
+    public updatedAt: Date,
     public livre: Livre,
     public adherent: Adherent
   ) {

@@ -14,10 +14,10 @@ import { Livre } from './livre';
 export class Emprunt {
   constructor(
     public id: number,
-    public date_emprunt: Date,
-    public date_retour: Date,
-    public created_at: Date,
-    public updated_at: Date,
+    public dateEmprunt: Date,
+    public dateRetour: Date,
+    public createdAt: Date,
+    public updatedAt: Date,
     public adherent: Adherent,
     public livre: Livre
   ) {

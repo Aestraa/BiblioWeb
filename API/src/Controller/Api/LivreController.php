@@ -23,12 +23,10 @@ class LivreController extends AbstractController
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
 
-    #[Route('/api/livre/search', methods: ['GET'])]
-    public function searchByTitle(Request $request, LivreRepository $livreRepository): JsonResponse
+    #[Route('/api/livre/search/{query}', methods: ['GET'])]
+    public function searchByTitle(Request $request, string $query, LivreRepository $livreRepository): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-
-        $query = $data['query'] ?? null;
+        $query = $query ?? null;
 
         if (!$query) {
             return $this->json(['message' => 'Parameter "query" is required.'], JsonResponse::HTTP_BAD_REQUEST);

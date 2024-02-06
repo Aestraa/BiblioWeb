@@ -19,13 +19,13 @@ export class Auteur {
     public id: number,
     public nom: string,
     public prenom: string,
-    public date_naissance: Date,
-    public date_deces: Date,
+    public dateNaissance: Date,
+    public dateDeces: Date,
     public nationalite: string,
     public photo: string,
     public description: string,
-    public created_at: Date,
-    public updated_at: Date,
+    public createdAt: Date,
+    public updatedAt: Date,
     public livres: Livre[] = []
   ) {}
 }

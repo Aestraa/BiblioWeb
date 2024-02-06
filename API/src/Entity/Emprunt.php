@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
-#[ApiResource()]
 class Emprunt
 {
     #[ORM\Id]

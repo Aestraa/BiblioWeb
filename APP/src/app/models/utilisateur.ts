@@ -21,13 +21,13 @@ export class Utilisateur {
     public email: string,
     public nom: string,
     public prenom: string,
-    public date_naiss: Date,
-    public adresse_postale: string,
-    public num_tel: string,
+    public dateNaiss: Date,
+    public adressePostale: string,
+    public numTel: string,
     public photo: string,
     public roles: string[],
-    public created_at: Date,
-    public updated_at: Date,
+    public createdAt: Date,
+    public updatedAt: Date,
     public adherent: Adherent | null = null
   ) {}
 }

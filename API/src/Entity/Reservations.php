@@ -11,7 +11,6 @@ use App\Repository\ReservationsRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationsRepository::class)]
-#[ApiResource()]
 class Reservations
 {
     #[ORM\Id]

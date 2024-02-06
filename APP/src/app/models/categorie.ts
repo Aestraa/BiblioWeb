@@ -14,8 +14,8 @@ export class Categorie {
     public id: number,
     public nom: string,
     public description: string,
-    public created_at: Date,
-    public updated_at: Date,
+    public createdAt: Date,
+    public updatedAt: Date,
     public livres: Livre[] = []
   ) {}
 }

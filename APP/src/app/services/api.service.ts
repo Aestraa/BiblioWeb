@@ -102,7 +102,7 @@ export class ApiService {
     // add the token in the header
     const headers = new HttpHeaders().set('Authorization', `${this.token}`);
     // return the user
-    return this.http.get<Utilisateur>(`${this.baseUrl}/adherents/${id}`, {
+    return this.http.get<Utilisateur>(`${this.baseUrl}/adherent/${id}`, {
       headers,
     });
   }

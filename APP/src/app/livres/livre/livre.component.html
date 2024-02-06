@@ -1,6 +1,6 @@
 <div class="livre">
   <div class="cover">
-    <img src="{{ livre.photo_couverture }}" alt="{{ livre.titre }}" />
+    <img src="{{ livre.photoCouverture }}" alt="{{ livre.titre }}" />
   </div>
   <div class="info">
     <div>
@@ -22,7 +22,7 @@
   <div class="details">
     <p>{{ livre.langue }}</p>
     <div>
-      <p>{{ livre.date_sortie | date : "dd/MM/yyyy" }}</p>
+      <p>{{ livre.dateSortie | date : "dd/MM/yyyy" }}</p>
     </div>
   </div>
 </div>

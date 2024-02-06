@@ -12,7 +12,7 @@ import { Utilisateur } from './utilisateur';
 export class Adherent {
   constructor(
     public utilisateur: Utilisateur,
-    public date_adhesion: Date,
+    public dateAdhesion: Date,
     public emprunts: Emprunt[] = [],
     public reservations: Reservation[] = []
   ) {}

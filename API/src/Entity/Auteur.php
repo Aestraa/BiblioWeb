@@ -11,7 +11,6 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuteurRepository::class)]
-#[ApiResource()]
 class Auteur
 {
     #[ORM\Id]
