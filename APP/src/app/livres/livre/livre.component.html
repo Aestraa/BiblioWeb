@@ -1,22 +1,25 @@
 <div class="livre">
   <div class="cover">
     <img src="{{ livre.photoCouverture }}" alt="{{ livre.titre }}" />
-  </div>
-  <div class="info">
-    <div>
-      <h2>{{ livre.titre }}</h2>
-      <p>
-        <span *ngFor="let auteur of livre.auteurs" class="comma author">
-          {{ auteur.nom }}
-        </span>
-      </p>
-    </div>
-    <div>
-      <p>
-        <span *ngFor="let categorie of livre.categories" class="comma category">
-          {{ categorie.nom }}
-        </span>
-      </p>
+    <div class="info">
+      <div>
+        <h2>{{ livre.titre }}</h2>
+        <p>
+          <span *ngFor="let auteur of livre.auteurs" class="comma author">
+            {{ auteur.nom }}
+          </span>
+        </p>
+      </div>
+      <div>
+        <p>
+          <span
+            *ngFor="let categorie of livre.categories"
+            class="comma category"
+          >
+            {{ categorie.nom }}
+          </span>
+        </p>
+      </div>
     </div>
   </div>
   <div class="details">

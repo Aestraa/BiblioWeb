@@ -1,17 +1,25 @@
 div.livre {
+  position: relative;
   display: flex;
-  flex-flow: row nowrap;
-  padding: 20px;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding: 10px;
   border: 1px solid var(--secondary);
   border-radius: 5px;
-  height: 200px;
-  width: 100%;
+  width: 250px;
+  height: 500px;
+  gap: 5px;
 }
 
 div.livre div.cover {
-  height: 100%;
-  width: 120px;
-  margin-right: 20px;
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  height: 60%;
+  width: 100%;
 }
 
 div.livre div.cover img {
@@ -29,17 +37,17 @@ div.livre div.info {
 }
 
 div.livre div.info div h2 {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 
 div.livre div.info div p span.author {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 div.livre div.info div p span.category {
   font-style: italic;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 div.livre div.info div p span.comma::after {
@@ -52,9 +60,9 @@ div.livre div.info div p span.comma:last-child:after {
 
 div.livre div.details {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 div.livre div.details p {
