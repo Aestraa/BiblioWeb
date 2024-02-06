@@ -2,10 +2,14 @@
 
 namespace App\Controller\Api;
 
+use DateTimeImmutable;
+use App\Entity\Categorie;
 use App\Repository\CategorieRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategorieController extends AbstractController
 {
@@ -14,5 +18,24 @@ class CategorieController extends AbstractController
     {
         $categories = $categorieRepository->findAll();
         return $this->json($categories, 200, [], ['groups' => 'categorie:read']);
+    }
+
+    #[Route('/api/categorie', methods: ['POST'])]
+    public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $categorie = new Categorie();
+        $categorie->setNom($data['Nom']);
+        $categorie->setDescription($data['Description']);
+
+        $date = new DateTimeImmutable("now");
+        $categorie->setCreatedAt($date);
+        $categorie->setUpdatedAt($date);
+
+        $entityManager->persist($categorie);
+        $entityManager->flush();
+
+        return $this->json($categorie, JsonResponse::HTTP_CREATED);
     }
 }
