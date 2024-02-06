@@ -50,8 +50,8 @@ fieldset form div input {
 }
 
 fieldset form div input:focus {
-  border: 1px solid #cebca5;
-  box-shadow: 0 0 5px #cebca5;
+  border: 1px solid var(--primary);
+  box-shadow: 0 0 5px var(--primary);
 }
 
 fieldset form div button {
