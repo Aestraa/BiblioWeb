@@ -47,6 +47,6 @@ class AuteurController extends AbstractController
         $entityManager->persist($auteur);
         $entityManager->flush();
 
-        return $this->json($auteur, JsonResponse::HTTP_CREATED);
+        return $this->json($auteur, JsonResponse::HTTP_CREATED, [], ['groups' => 'auteur:read']);
     }
 }

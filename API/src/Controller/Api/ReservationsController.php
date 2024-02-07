@@ -7,6 +7,7 @@ use DateInterval;
 use App\Entity\Livre;
 use DateTimeImmutable;
 use App\Entity\Adherent;
+use App\Entity\Utilisateur;
 use App\Entity\Reservations;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationsRepository;
@@ -46,7 +47,45 @@ class ReservationsController extends AbstractController
 
         $entityManager->persist($reservation);
         $entityManager->flush();
+
+        return $this->json($reservation, JsonResponse::HTTP_CREATED, ['groups' => 'reservation:read']);
+    }
+
+    #[Route('/api/reservation', methods: ['DELETE'])]
+    public function cancel(Request $request, ReservationsRepository $reservationsRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $reservation = $reservationsRepository->find($data['id']);
+
+        // Si la réservation n'existe pas, retourner une erreur
+        if (!$reservation) {
+            return $this->json(['message' => 'Réservation non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+
+        //DEBUG
+        $debugInfo = [
+            'userId' => $user->getId(),
+            'reservationUserId' => $reservation->getFaire()->getId(),
+        ];
         
-        return $this->json($reservation, JsonResponse::HTTP_CREATED,['groups' => 'reservation:write']);
+        // Si l'utilisateur n'est pas l'auteur de la réservation, retourner une erreur
+        if ($reservation->getFaire()->getId() !== $user->getId()) {
+            return $this->json([
+                'message' => 'Vous n\'êtes pas autorisé à annuler cette réservation',
+                'debug' => $debugInfo,  // Ajoutez les informations de débogage ici
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
+        
+
+        $entityManager->remove($reservation);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Réservation annulée avec succès', 'groups' => 'reservation:read']);
     }
 }
