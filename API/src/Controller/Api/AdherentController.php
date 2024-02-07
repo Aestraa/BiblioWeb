@@ -8,10 +8,14 @@ use App\Entity\Adherent;
 use App\Entity\Utilisateur;
 use App\Repository\AdherentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UtilisateurRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdherentController extends AbstractController
 {
@@ -23,6 +27,13 @@ class AdherentController extends AbstractController
         return $this->json($adherents, 200, [], ['groups' => 'adherent:read']);
     }
     */
+
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
 
 
     //put pour modif
@@ -69,7 +80,7 @@ class AdherentController extends AbstractController
         // Retournez l'adhérent en tant que réponse JSON
         return $this->json($adherent, JsonResponse::HTTP_OK, [], ['groups' => 'adherent:read']);
     }
-    
+
     #[Route('/api/adherent', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -85,7 +96,9 @@ class AdherentController extends AbstractController
         $utilisateur->setNumTel($data['NumTel']);
         $utilisateur->setPhoto($data['Photo']);
         $utilisateur->addRoles('ROLE_ADHERENT');
-        $utilisateur->setPassword($data['Password']);
+
+        $hashedPassword = $this->passwordHasher->hashPassword($utilisateur, $data['Password']);
+        $utilisateur->setPassword($hashedPassword);
 
         $date = new DateTimeImmutable("now");
         $utilisateur->setCreatedAt($date);
@@ -104,4 +117,28 @@ class AdherentController extends AbstractController
         return $this->json($adherent, JsonResponse::HTTP_CREATED);
     }
 
+    #[Route('/api/login', methods: ['POST'])]
+    public function login(Request $request, UtilisateurRepository $utilisateurRepository, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $email = $data['email'];
+        $password = $data['password'];
+
+        $utilisateur = $utilisateurRepository->findOneBy(['email' => $email]);
+
+        // Vérification utilisateur
+        if (!$utilisateur) {
+            return $this->json(['message' => 'Utilisateur non trouvé.'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        $utilisateur->getPassword();
+
+        // Vérification mot de passe
+        if (!$passwordHasher->isPasswordValid($utilisateur, $password)) {
+            return $this->json(['message' => 'Mot de passe incorrect.'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Si authentification réussie -> retourner token JWT 
+        return $this->json(['message' => 'Connexion réussie.']);
+    }
 }
