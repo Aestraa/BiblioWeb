@@ -84,17 +84,17 @@ class AdherentController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $utilisateur = new Utilisateur();
-        $utilisateur->setEmail($data['Email']);
-        $utilisateur->setNom($data['Nom']);
-        $utilisateur->setPrenom($data['Prenom']);
-        $dateNaiss = new DateTime($data['DateNaiss']);
+        $utilisateur->setEmail($data['email']);
+        $utilisateur->setNom($data['nom']);
+        $utilisateur->setPrenom($data['prenom']);
+        $dateNaiss = new DateTime($data['dateNaiss']);
         $utilisateur->setDateNaiss($dateNaiss);
-        $utilisateur->setAdressePostale($data['AdressePostale']);
-        $utilisateur->setNumTel($data['NumTel']);
-        $utilisateur->setPhoto($data['Photo']);
+        $utilisateur->setAdressePostale($data['adressePostale']);
+        $utilisateur->setNumTel($data['numTel']);
+        $utilisateur->setPhoto('');
         $utilisateur->addRoles('ROLE_ADHERENT');
 
-        $hashedPassword = $this->passwordHasher->hashPassword($utilisateur, $data['Password']);
+        $hashedPassword = $this->passwordHasher->hashPassword($utilisateur, $data['password']);
         $utilisateur->setPassword($hashedPassword);
 
         $date = new DateTimeImmutable("now");
@@ -111,6 +111,6 @@ class AdherentController extends AbstractController
         $entityManager->persist($adherent);
         $entityManager->flush();
 
-        return $this->json($adherent, JsonResponse::HTTP_CREATED);
+        return $this->json($adherent, JsonResponse::HTTP_CREATED, [], ['groups' => 'adherent:read']);
     }
 }

@@ -6,6 +6,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-register',
@@ -16,19 +18,19 @@ export class RegisterComponent {
   registerForm: FormGroup;
   loading = false;
 
-  constructor() {
+  constructor(private api: ApiService, private router: Router) {
     this.registerForm = new FormGroup(
       {
         email: new FormControl('', [Validators.required, Validators.email]),
-        birthDate: new FormControl('', [
+        dateNaiss: new FormControl('', [
           Validators.required,
           Validators.pattern(/^\d{4}-\d{2}-\d{2}$/),
         ]),
-        firstname: new FormControl('', [Validators.required]),
-        lastname: new FormControl('', [Validators.required]),
-        address: new FormControl('', [Validators.required]),
-        country: new FormControl('', [Validators.required]),
-        phone: new FormControl('', [
+        prenom: new FormControl('', [Validators.required]),
+        nom: new FormControl('', [Validators.required]),
+        adressePostale: new FormControl('', [Validators.required]),
+        pays: new FormControl('', [Validators.required]),
+        numTel: new FormControl('', [
           Validators.required,
           Validators.pattern(/^\+?\d{10,}$/),
         ]),
@@ -46,8 +48,10 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       console.log('Registration form is valid', this.registerForm.value);
       this.loading = true;
-      console.log('Form Value:', this.registerForm.value);
-      this.loading = false;
+      this.api.register({ ...this.registerForm.value }).subscribe(() => {
+        this.loading = false;
+        this.router.navigate(['/auth/login']);
+      });
     } else {
       console.error('Registration form is not valid');
     }

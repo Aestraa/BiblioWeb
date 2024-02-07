@@ -73,26 +73,36 @@ export class ApiService {
    * @param phone the phone number of the user
    * @returns Observable<Utilisateur> the user
    */
-  public register(
-    email: string,
-    password: string,
-    birthDate: string,
-    firstname: string,
-    lastname: string,
-    address: string,
-    country: string,
-    phone: string
-  ): Observable<Utilisateur> {
-    address = address + ', ' + country;
-    birthDate = new Date(birthDate).toISOString();
-    return this.http.post<Utilisateur>(`${this.baseUrl}/register`, {
+  public register({
+    email,
+    password,
+    dateNaiss,
+    prenom,
+    nom,
+    adressePostale,
+    pays,
+    numTel,
+  }: {
+    id: number;
+    email: string;
+    password: string;
+    dateNaiss: string;
+    prenom: string;
+    nom: string;
+    adressePostale: string;
+    pays: string;
+    numTel: string;
+  }): Observable<Utilisateur> {
+    adressePostale = adressePostale + ', ' + pays;
+    dateNaiss = new Date(dateNaiss).toISOString();
+    return this.http.post<Utilisateur>(`${this.baseUrl}/adherent`, {
       email,
       password,
-      birthDate,
-      firstname,
-      lastname,
-      address,
-      phone,
+      dateNaiss,
+      prenom,
+      nom,
+      adressePostale,
+      numTel,
     });
   }
 

@@ -27,7 +27,6 @@ export class ShowLivreComponent {
     } else {
       this.api.getLivre(id).subscribe(
         (data) => {
-          console.log(data);
           this.livre = data;
           this.loading = false;
         },
