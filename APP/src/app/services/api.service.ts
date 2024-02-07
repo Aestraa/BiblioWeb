@@ -41,7 +41,7 @@ export class ApiService {
    * @returns Observable<Livre[]> Livres
    */
   public searchLivre(search: string): Observable<Livre[]> {
-    return this.http.get<Livre[]>(`${this.baseUrl}/livres/search/${search}`);
+    return this.http.get<Livre[]>(`${this.baseUrl}/livre/search/${search}`);
   }
 
   /**

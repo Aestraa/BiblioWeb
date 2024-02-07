@@ -28,10 +28,22 @@ export class LivresComponent implements OnInit {
   onSubmit() {
     if (this.searchForm.valid) {
       this.loading = true;
-      console.log('Form Value:', this.searchForm.value);
-      this.loading = false;
-    } else {
-      console.error('Form is not valid');
+      this.api
+        .searchLivre(this.searchForm.value.search as string)
+        .subscribe((data: any) => {
+          this.livres = data as Livre[];
+          this.loading = false;
+        });
+    }
+  }
+
+  onChange(event: any) {
+    if (!event.target?.value) {
+      this.loading = true;
+      this.api.getLivres().subscribe((data: any) => {
+        this.livres = data as Livre[];
+        this.loading = false;
+      });
     }
   }
 }
