@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdherentController extends AbstractController
 {
@@ -23,6 +24,13 @@ class AdherentController extends AbstractController
         return $this->json($adherents, 200, [], ['groups' => 'adherent:read']);
     }
     */
+
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
 
 
     //put pour modif
@@ -69,7 +77,7 @@ class AdherentController extends AbstractController
         // Retournez l'adhérent en tant que réponse JSON
         return $this->json($adherent, JsonResponse::HTTP_OK, [], ['groups' => 'adherent:read']);
     }
-    
+
     #[Route('/api/adherent', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
@@ -85,7 +93,9 @@ class AdherentController extends AbstractController
         $utilisateur->setNumTel($data['NumTel']);
         $utilisateur->setPhoto($data['Photo']);
         $utilisateur->addRoles('ROLE_ADHERENT');
-        $utilisateur->setPassword($data['Password']);
+
+        $hashedPassword = $this->passwordHasher->hashPassword($utilisateur, $data['Password']);
+        $utilisateur->setPassword($hashedPassword);
 
         $date = new DateTimeImmutable("now");
         $utilisateur->setCreatedAt($date);
@@ -103,5 +113,4 @@ class AdherentController extends AbstractController
 
         return $this->json($adherent, JsonResponse::HTTP_CREATED);
     }
-
 }
