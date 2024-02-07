@@ -14,6 +14,7 @@ import { LivreComponent } from './livres/livre/livre.component';
 import { LivresComponent } from './livres/livres.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ShowLivreComponent } from './show-livre/show-livre.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ShowLivreComponent } from './show-livre/show-livre.component';
     LivreComponent,
     LoaderComponent,
     ShowLivreComponent,
+    ReservationComponent,
   ],
   imports: [
     BrowserModule,
