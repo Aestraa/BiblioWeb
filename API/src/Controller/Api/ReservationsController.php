@@ -7,6 +7,7 @@ use DateInterval;
 use App\Entity\Livre;
 use DateTimeImmutable;
 use App\Entity\Adherent;
+use App\Entity\Utilisateur;
 use App\Entity\Reservations;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationsRepository;
@@ -60,12 +61,24 @@ class ReservationsController extends AbstractController
             return $this->json(['message' => 'Réservation non trouvée'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        /*
-    // Si l'utilisateur connecté n'est pas l'adhérent qui a fait la réservation, retourner une erreur
-    if ($this->getUser()->getId() !== $reservation->getFaire()->getId()) {
-        return $this->json(['message' => 'Vous n\'avez pas le droit d\'annuler cette réservation'], JsonResponse::HTTP_FORBIDDEN);
-    }
-    */
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+
+        //DEBUG
+        $debugInfo = [
+            'userId' => $user->getId(),
+            'reservationUserId' => $reservation->getFaire()->getId(),
+        ];
+
+        // Si l'utilisateur n'est pas l'auteur de la réservation, retourner une erreur
+        if ($reservation->getFaire()->getId() !== $user->getId()) {
+            return $this->json([
+                'message' => 'Vous n\'êtes pas autorisé à annuler cette réservation',
+                'debug' => $debugInfo,  // Ajoutez les informations de débogage ici
+            ], JsonResponse::HTTP_FORBIDDEN);
+        }
 
         $entityManager->remove($reservation);
         $entityManager->flush();
