@@ -14,11 +14,12 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class SecurityController extends AbstractController
 {
-    
+
     #[Route('/api/login', name:"api_login" ,methods: ['POST'])]
     public function login(Request $request, UtilisateurRepository $utilisateurRepository, UserPasswordHasherInterface $passwordEncoder, JWTTokenManagerInterface $jwtManager): Response
     {
         $data = json_decode($request->getContent(), true);
+
         $email = $data['email'];
         $password = $data['password'];
 
@@ -33,12 +34,15 @@ class SecurityController extends AbstractController
         if (!$passwordEncoder->isPasswordValid($utilisateur, $password)) {
             return $this->json(['message' => 'Mot de passe incorrect.'], Response::HTTP_UNAUTHORIZED);
         }
-
-        // Générer le token JWT
-        $token = $jwtManager->create($utilisateur);
+        
+        $payload = [
+            'id' => $utilisateur->getId(),
+        ];
+    
+        // Création du token JWT avec le payload
+        $token = $jwtManager->createFromPayload($utilisateur, $payload);
 
         // Retourner le token JWT dans la réponse
         return $this->json(['token' => $token]);
     }
-    
 }
