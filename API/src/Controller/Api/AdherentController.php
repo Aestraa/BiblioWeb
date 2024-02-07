@@ -111,6 +111,6 @@ class AdherentController extends AbstractController
         $entityManager->persist($adherent);
         $entityManager->flush();
 
-        return $this->json($adherent, JsonResponse::HTTP_CREATED);
+        return $this->json($adherent, JsonResponse::HTTP_CREATED, [], ['groups' => 'adherent:read']);
     }
 }
