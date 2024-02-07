@@ -18,8 +18,10 @@ export class LivresComponent implements OnInit {
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.api.getLivres().subscribe((data: any) => {
       this.livres = data as Livre[];
+      this.loading = false;
     });
   }
 
