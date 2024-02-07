@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UtilisateurRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
@@ -31,7 +32,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
-    private ?\DateTimeInterface $dateNaiss = null;
+    private ?\DateTime $dateNaiss = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','reservation:read','reservation:write'])]
@@ -105,12 +106,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateNaiss(): ?\DateTimeInterface
+    public function getDateNaiss(): ?\DateTime
     {
         return $this->dateNaiss;
     }
 
-    public function setDateNaiss(\DateTimeInterface $dateNaiss): static
+    public function setDateNaiss(\DateTime $dateNaiss): static
     {
         $this->dateNaiss = $dateNaiss;
 
@@ -174,6 +175,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
+
+    public function addRoles(string $roles): static
+    {
+        $this->roles[] = $roles;
+    
+        return $this;
+    }
+    
 
     public function setRoles(array $roles): static
     {

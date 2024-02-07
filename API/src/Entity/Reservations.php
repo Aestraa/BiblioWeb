@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Adherent;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationsRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -46,12 +47,12 @@ class Reservations
         return $this->id;
     }
 
-    public function getDateResa(): ?\DateTimeInterface
+    public function getDateResa(): ?\DateTime
     {
         return $this->dateResa;
     }
 
-    public function setDateResa(\DateTimeInterface $dateResa): static
+    public function setDateResa(\DateTime $dateResa): static
     {
         $this->dateResa = $dateResa;
 
@@ -82,12 +83,12 @@ class Reservations
         return $this;
     }
 
-    public function getDateResaFin(): ?\DateTimeInterface
+    public function getDateResaFin(): ?\DateTime
     {
         return $this->dateResaFin;
     }
 
-    public function setDateResaFin(\DateTimeInterface $dateResaFin): static
+    public function setDateResaFin(\DateTime $dateResaFin): static
     {
         $this->dateResaFin = $dateResaFin;
 

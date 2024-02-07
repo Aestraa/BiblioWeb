@@ -45,4 +45,13 @@ class LivreRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByPartialTitle(string $query)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.titre LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

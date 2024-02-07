@@ -1,0 +1,180 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Biblioweb",
+    "dateExported": "2024-02-06T11:54:43.214Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "019a1e3e-27f6-47a6-916c-4f84aa6296ca",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "https://127.0.0.1:8008/api/adherent",
+            "url": "https://127.0.0.1:8008/api/adherent",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-05T10:10:05.652Z",
+            "modified": "2024-02-05T10:10:05.652Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"Email\":\"test@test.com\",\n  \"Nom\":\"test\",\n  \"Prenom\":\"test\",\n  \"DateNaiss\":\"2000-01-01\",\n  \"AdressePostale\":\"Toulouse\",\n  \"NumTel\":\"0606060606\",\n  \"Photo\":\"https://picsum.photos/300/300\",\n  \"Password\":\"qazesrdtfgyhujni\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d63d6abb-2ad7-4aa1-bf75-8a663c22a35a",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "127.0.0.1:8008/api/livre",
+            "url": "127.0.0.1:8008/api/livre",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-05T13:49:37.394Z",
+            "modified": "2024-02-05T13:49:37.394Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"Titre\":\"Test\",\n  \"DateSortie\":\"2000-01-01\",\n  \"Langue\":\"Fr\",\n  \"PhotoCouverture\":\"https://picsum.photos/300/300\",\n  \"Auteur\": [1, 2, 3],\n  \"Categorie\": [1, 4]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "570042b8-724d-45a1-b7f3-c9087b1a73e0",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "127.0.0.1:8008/api/emprunt",
+            "url": "127.0.0.1:8008/api/emprunt",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-05T13:51:38.859Z",
+            "modified": "2024-02-05T13:51:38.859Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"Livre\":22,\n  \"Adherent\":2\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "d71befdb-4877-46e1-b97b-93bc96caa5e6",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "127.0.0.1:8008/api/reservation",
+            "url": "127.0.0.1:8008/api/reservation",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-02-05T13:52:51.110Z",
+            "modified": "2024-02-05T13:52:51.111Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"Livre\":22,\n  \"Adherent\":1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "3f3cd692-fa41-4497-a9e9-c9b8a0df233b",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "127.0.0.1:8008/api/auteur",
+            "url": "127.0.0.1:8008/api/auteur",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-02-05T13:54:30.114Z",
+            "modified": "2024-02-05T13:54:30.114Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"Nom\": \"Hugo\",\r\n  \"Prenom\": \"Victor\",\r\n  \"DateNaissance\": \"1802-02-26\",\r\n  \"DateDeces\": \"1885-05-22\",\r\n  \"Nationalite\": \"Française\",\r\n  \"Photo\": \"https://picsum.photos/300/300\",\r\n  \"Description\": \"Un des plus importants écrivains de la langue française et de la littérature romantique.\"\r\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "27a796a0-ed03-4fb6-a011-781cfaa738e5",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "127.0.0.1:8008/api/categorie",
+            "url": "127.0.0.1:8008/api/categorie",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-02-05T13:55:59.251Z",
+            "modified": "2024-02-05T13:55:59.251Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\r\n  \"Nom\": \"Roman\",\r\n  \"Description\": \"Genre littéraire, caractérisé essentiellement par une narration fictionnelle.\"\r\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "159df566-4bd0-4e04-9059-818b22c05694",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "127.0.0.1:8008/api/livre/search",
+            "url": "127.0.0.1:8008/api/livre/search",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-02-05T14:26:06.769Z",
+            "modified": "2024-02-05T14:26:06.769Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"query\":\"a\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "db0d09a3-7598-4e5e-9e21-8fc96dec7397",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "https://127.0.0.1:8008/api/adherent/modif/13",
+            "url": "https://127.0.0.1:8008/api/adherent/modif/13",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2024-02-05T14:45:03.583Z",
+            "modified": "2024-02-05T14:45:03.583Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"Email\": \"nouveau.email@example.com\",\n  \"Nom\": \"NouveauNom\",\n  \"Prenom\": \"NouveauPrenom\",\n  \"DateNaiss\": \"1990-01-01\",\n  \"AdressePostale\": \"Nouvelle Adresse\",\n  \"NumTel\": \"123456789\",\n  \"Photo\": \"nouvelle_photo.jpg\",\n  \"Password\": \"nouveauMotDePasse\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "734937d2-a124-4225-b362-54492bae68a0",
+            "colId": "5a59f97f-b706-4370-a77a-40853654b4ce",
+            "containerId": "",
+            "name": "https://127.0.0.1:8008/api/adherent/1",
+            "url": "https://127.0.0.1:8008/api/adherent/1",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-02-05T14:45:28.476Z",
+            "modified": "2024-02-05T14:45:28.476Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"Email\": \"nouveau.email@example.com\",\n  \"Nom\": \"NouveauNom\",\n  \"Prenom\": \"NouveauPrenom\",\n  \"DateNaiss\": \"1990-01-01\",\n  \"AdressePostale\": \"Nouvelle Adresse\",\n  \"NumTel\": \"123456789\",\n  \"Photo\": \"nouvelle_photo.jpg\",\n  \"Password\": \"nouveauMotDePasse\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\EmpruntRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EmpruntRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
 class Emprunt
@@ -27,16 +29,20 @@ class Emprunt
 
     #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts')]
     #[Groups(['emprunt:read','emprunt:write'])]
+    #[MaxDepth(1)]
     private Collection $Relier;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write'])]
+    #[MaxDepth(1)]
     private ?Livre $Correspondre = null;
 
     #[ORM\Column]
+    #[Groups(['emprunt:read','emprunt:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['emprunt:read','emprunt:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
