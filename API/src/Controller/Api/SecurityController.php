@@ -14,7 +14,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class SecurityController extends AbstractController
 {
-    /*
+    
     #[Route('/api/login', name:"api_login" ,methods: ['POST'])]
     public function login(Request $request, UtilisateurRepository $utilisateurRepository, UserPasswordHasherInterface $passwordEncoder, JWTTokenManagerInterface $jwtManager): Response
     {
@@ -40,5 +40,5 @@ class SecurityController extends AbstractController
         // Retourner le token JWT dans la réponse
         return $this->json(['token' => $token]);
     }
-    */
+    
 }

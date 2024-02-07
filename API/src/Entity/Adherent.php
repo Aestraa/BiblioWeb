@@ -25,16 +25,16 @@ class Adherent
     private ?\DateTimeInterface $dateAdhesion = null;
 
     #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
-    #[Groups(['adherent:read', 'adherent:write', 'emprunt:read', 'emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write'])]
     #[SerializedName('emprunts')]
     private Collection $emprunts;
 
     #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class)]
-    #[Groups(['adherent:read', 'adherent:write', 'reservation:read', 'reservation:write'])]
+    #[Groups(['reservation:read', 'reservation:write'])]
     private Collection $reservations;
 
     #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]
-    #[Groups(['adherent:read', 'adherent:write', 'reservation:read', 'reservation:write'])]
+    #[Groups(['adherent:read', 'adherent:write','reservation:read', 'reservation:write'])]
     private ?Utilisateur $utilisateur = null;
 
     public function __construct()

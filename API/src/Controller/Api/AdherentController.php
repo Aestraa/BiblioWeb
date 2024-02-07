@@ -16,14 +16,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdherentController extends AbstractController
 {
-    /*
+    
     #[Route('/api/adherents', methods: ['GET'])]
     public function index(AdherentRepository $adherentRepository): JsonResponse
     {
         $adherents = $adherentRepository->findAll();
         return $this->json($adherents, 200, [], ['groups' => 'adherent:read']);
     }
-    */
+    
 
     private UserPasswordHasherInterface $passwordHasher;
 
