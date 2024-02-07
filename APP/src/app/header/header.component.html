@@ -1,23 +1,24 @@
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<link
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
 <div class="f"></div>
-<div class="navbar-wrapper"  [ngClass]="{'sticky': isSticky}">
+<div class="navbar-wrapper" [ngClass]="{ sticky: isSticky }">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" routerLink="#">BiblioWeb</a>
+        <a class="navbar-brand" routerLink="/">BiblioWeb</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li>
             <a routerLink="#">Evenement</a>
           </li>
-          <li><a routerLink="#">Livres</a>
-          </li>
-          <li><a routerLink="#">Autres</a>
-          </li>
+          <li><a routerLink="/livres">Livres</a></li>
+          <li><a routerLink="#">Autres</a></li>
+          <li><a routerLink="/auth/login">Se connecter</a></li>
         </ul>
       </div>
     </div>
   </nav>
-
-
+</div>

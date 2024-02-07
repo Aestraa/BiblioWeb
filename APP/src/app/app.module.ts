@@ -13,6 +13,7 @@ import { HeadercssService } from './headercss.service';
 import { LivreComponent } from './livres/livre/livre.component';
 import { LivresComponent } from './livres/livres.component';
 import { LoaderComponent } from './loader/loader.component';
+import { ShowLivreComponent } from './show-livre/show-livre.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { LoaderComponent } from './loader/loader.component';
     LivresComponent,
     LivreComponent,
     LoaderComponent,
+    ShowLivreComponent,
   ],
   imports: [
     BrowserModule,

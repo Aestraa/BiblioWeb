@@ -4,12 +4,14 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { LoginComponent } from './authentification/login/login.component';
 import { RegisterComponent } from './authentification/register/register.component';
 import { LivresComponent } from './livres/livres.component';
+import { ShowLivreComponent } from './show-livre/show-livre.component';
 
 const routes: Routes = [
   { path: '', component: AccueilComponent },
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
   { path: 'livres', component: LivresComponent },
+  { path: 'livre/:id', component: ShowLivreComponent },
 ];
 
 @NgModule({

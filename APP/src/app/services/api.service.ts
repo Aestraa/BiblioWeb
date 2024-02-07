@@ -44,6 +44,10 @@ export class ApiService {
     return this.http.get<Livre[]>(`${this.baseUrl}/livre/search/${search}`);
   }
 
+  public getLivre(id: number): Observable<Livre> {
+    return this.http.get<Livre>(`${this.baseUrl}/livre/${id}`);
+  }
+
   /**
    * Login to the API
    * @param email the email of the user

@@ -1,4 +1,4 @@
-<div class="livre">
+<a class="livre" [routerLink]="['/livre', livre.id]">
   <div class="cover">
     <img src="{{ livre.photoCouverture }}" alt="{{ livre.titre }}" />
     <div class="info">
@@ -28,4 +28,4 @@
       <p>{{ livre.dateSortie | date : "dd/MM/yyyy" }}</p>
     </div>
   </div>
-</div>
+</a>
