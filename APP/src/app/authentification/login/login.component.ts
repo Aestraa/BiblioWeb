@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms'; // Importez ces éléments
+import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -12,11 +12,12 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   loading = false;
+  error = false;
 
   constructor(
-    private http: HttpClient,
     private api: ApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -31,16 +32,17 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.loading = true;
       this.api.login({ ...this.loginForm.value }).subscribe(
-        (user) => {
+        (res) => {
           this.loading = false;
-          console.log('User logged in', user);
+          this.auth.token = res.token;
+          this.router.navigate(['/']);
         },
         (error) => {
           console.error(error);
           this.loading = false;
+          this.error = true; // Mettre à jour la variable de classe en cas d'erreur
         }
       );
-      this.loading = false;
     } else {
       console.error('Form is not valid');
     }

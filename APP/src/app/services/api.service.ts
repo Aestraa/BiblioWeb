@@ -57,8 +57,8 @@ export class ApiService {
   }: {
     email: string;
     password: string;
-  }): Observable<Utilisateur> {
-    return this.http.post<Utilisateur>(`${this.baseUrl}/login`, {
+  }): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, {
       email,
       password,
     });
