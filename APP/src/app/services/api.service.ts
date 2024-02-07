@@ -18,9 +18,6 @@ export class ApiService {
   // base url of the API
   private baseUrl = `http://localhost:${this.PORT}/api`;
 
-  // private token to access the API
-  private token = '';
-
   /**
    * Constructor
    * @param http Injected HttpClient
@@ -54,7 +51,13 @@ export class ApiService {
    * @param password the password of the user
    * @returns Observable<Utilisateur> the user
    */
-  public login(email: string, password: string): Observable<Utilisateur> {
+  public login({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Observable<Utilisateur> {
     return this.http.post<Utilisateur>(`${this.baseUrl}/login`, {
       email,
       password,
@@ -110,11 +113,18 @@ export class ApiService {
   /**
    * Get the user by id
    * @param id the id of the user
+   * @param token the token of the user
    * @returns Observable<Utilisateur> the user
    */
-  public getAdherent(id: number): Observable<Utilisateur> {
+  public getAdherent({
+    id,
+    token,
+  }: {
+    id: number;
+    token: string;
+  }): Observable<Utilisateur> {
     // add the token in the header
-    const headers = new HttpHeaders().set('Authorization', `${this.token}`);
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
     // return the user
     return this.http.get<Utilisateur>(`${this.baseUrl}/adherent/${id}`, {
       headers,
@@ -133,32 +143,45 @@ export class ApiService {
    * @param address the address of the user
    * @param country the country of the user
    * @param phone the phone number of the user
+   * @param token the token of the user
    * @returns Observable<Utilisateur> the user
    */
-  public putAdherent(
-    id: number,
-    email: string,
-    password: string,
-    birthDate: string,
-    firstname: string,
-    lastname: string,
-    address: string,
-    country: string,
-    phone: string
-  ): Observable<Utilisateur> {
-    address = address + ', ' + country;
-    birthDate = new Date(birthDate).toISOString();
-    const headers = new HttpHeaders().set('Authorization', `${this.token}`);
+  public putAdherent({
+    id,
+    email,
+    password,
+    dateNaiss,
+    prenom,
+    nom,
+    adressePostale,
+    pays,
+    numTel,
+    token,
+  }: {
+    id: number;
+    email: string;
+    password: string;
+    dateNaiss: string;
+    prenom: string;
+    nom: string;
+    adressePostale: string;
+    pays: string;
+    numTel: string;
+    token: string;
+  }): Observable<Utilisateur> {
+    adressePostale = adressePostale + ', ' + pays;
+    dateNaiss = new Date(dateNaiss).toISOString();
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
     return this.http.put<Utilisateur>(
       `${this.baseUrl}/adherents/${id}`,
       {
         email,
         password,
-        birthDate,
-        firstname,
-        lastname,
-        address,
-        phone,
+        dateNaiss,
+        prenom,
+        nom,
+        adressePostale,
+        numTel,
       },
       { headers }
     );
@@ -171,15 +194,23 @@ export class ApiService {
    * @param date_resa_fin the end date of the reservation
    * @param livre the book of the reservation
    * @param adherent the user of the reservation
+   * @param token the token of the user
    * @returns Observable<Reservation> the reservation
    */
-  public postReservation(
-    date_resa: Date,
-    date_resa_fin: Date,
-    livre: Livre,
-    adherent: Utilisateur
-  ): Observable<Reservation> {
-    const headers = new HttpHeaders().set('Authorization', `${this.token}`);
+  public postReservation({
+    date_resa,
+    date_resa_fin,
+    livre,
+    adherent,
+    token,
+  }: {
+    date_resa: Date;
+    date_resa_fin: Date;
+    livre: Livre;
+    adherent: Utilisateur;
+    token: string;
+  }): Observable<Reservation> {
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
     return this.http.post<Reservation>(
       `${this.baseUrl}/reservations`,
       {
@@ -195,10 +226,17 @@ export class ApiService {
   /**
    * Get the reservations of the user
    * @param id the id of the user
+   * @param token the token of the user
    * @returns Observable<Reservation[]> the reservations
    */
-  public getReservations(id: number): Observable<Reservation[]> {
-    const headers = new HttpHeaders().set('Authorization', `${this.token}`);
+  public getReservations({
+    id,
+    token,
+  }: {
+    id: number;
+    token: string;
+  }): Observable<Reservation[]> {
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
     return this.http.get<Reservation[]>(`${this.baseUrl}/reservations/${id}`, {
       headers,
     });
@@ -212,16 +250,25 @@ export class ApiService {
    * @param date_resa_fin the end date of the reservation
    * @param livre the book of the reservation
    * @param adherent the user of the reservation
+   * @param token the token of the user
    * @returns Observable<Reservation> the reservation
    */
-  public putReservation(
-    id: number,
-    date_resa: Date,
-    date_resa_fin: Date,
-    livre: Livre,
-    adherent: Utilisateur
-  ): Observable<Reservation> {
-    const headers = new HttpHeaders().set('Authorization', `${this.token}`);
+  public putReservation({
+    id,
+    date_resa,
+    date_resa_fin,
+    livre,
+    adherent,
+    token,
+  }: {
+    id: number;
+    date_resa: Date;
+    date_resa_fin: Date;
+    livre: Livre;
+    adherent: Utilisateur;
+    token: string;
+  }): Observable<Reservation> {
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
     return this.http.put<Reservation>(
       `${this.baseUrl}/reservations/${id}`,
       {
@@ -237,10 +284,17 @@ export class ApiService {
   /**
    * Get the reservations of the user
    * @param id the id of the reservation
+   * @param token the token of the user
    * @returns Observable<Reservation> the reservation
    */
-  public deleteReservation(id: number): Observable<Reservation> {
-    const headers = new HttpHeaders().set('Authorization', `${this.token}`);
+  public deleteReservation({
+    id,
+    token,
+  }: {
+    id: number;
+    token: string;
+  }): Observable<Reservation> {
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
     return this.http.delete<Reservation>(`${this.baseUrl}/reservations/${id}`, {
       headers,
     });
