@@ -46,7 +46,30 @@ class ReservationsController extends AbstractController
 
         $entityManager->persist($reservation);
         $entityManager->flush();
-        
-        return $this->json($reservation, JsonResponse::HTTP_CREATED,['groups' => 'reservation:write']);
+
+        return $this->json($reservation, JsonResponse::HTTP_CREATED, ['groups' => 'reservation:write']);
+    }
+
+    #[Route('/api/reservation/{id}', methods: ['DELETE'])]
+    public function cancel(int $id, ReservationsRepository $reservationsRepository, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $reservation = $reservationsRepository->find($id);
+
+        // Si la réservation n'existe pas, retourner une erreur
+        if (!$reservation) {
+            return $this->json(['message' => 'Réservation non trouvée'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        /*
+    // Si l'utilisateur connecté n'est pas l'adhérent qui a fait la réservation, retourner une erreur
+    if ($this->getUser()->getId() !== $reservation->getFaire()->getId()) {
+        return $this->json(['message' => 'Vous n\'avez pas le droit d\'annuler cette réservation'], JsonResponse::HTTP_FORBIDDEN);
+    }
+    */
+
+        $entityManager->remove($reservation);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Réservation annulée avec succès']);
     }
 }
