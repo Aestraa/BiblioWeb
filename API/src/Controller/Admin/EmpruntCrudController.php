@@ -19,7 +19,7 @@ class EmpruntCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('idEmp'),
+            IdField::new('id'),
             DateField::new('dateEmprunt'),
             DateField::new('dateRetour'),
         ];

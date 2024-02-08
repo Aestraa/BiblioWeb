@@ -19,11 +19,11 @@ class LivreCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('idLivre'),
+            IdField::new('id'),
             TextField::new('titre'),
             DateField::new('dateSortie'),
             TextField::new('langue'),
-            TextField::new('photo'),
+            TextField::new('photoCouverture'),
         ];
     }
 

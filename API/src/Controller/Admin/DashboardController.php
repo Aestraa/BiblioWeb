@@ -8,6 +8,7 @@ use App\Entity\Emprunt;
 use App\Entity\Adherent;
 use App\Entity\Categorie;
 use App\Entity\Reservations;
+use App\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -40,5 +41,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Réservations', 'fa fa-book', Reservations::class);
         yield MenuItem::section('Gestion des Adhérents');
         yield MenuItem::linkToCrud('Adhérents', 'fa fa-book', Adherent::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-book', Utilisateur::class);
     }
 }

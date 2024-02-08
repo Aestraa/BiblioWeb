@@ -21,6 +21,7 @@ export class AdherentComponent implements OnInit {
   date: string[] | undefined;
   adherent!: Adherent;
   modifForm: FormGroup;
+  success = false;
 
   constructor(private api: ApiService, private auth: AuthService) {
     this.modifForm = new FormGroup(
@@ -86,9 +87,13 @@ export class AdherentComponent implements OnInit {
   onSubmit() {
     if (this.modifForm.valid) {
       this.loading = true;
-      this.api.modifierAdherent({ ...this.modifForm.value }).subscribe(() => {
-        this.loading = false;
-      });
+      this.api
+        .modifierAdherent({ ...this.modifForm.value, token: this.auth.token })
+        .subscribe((adherent) => {
+          this.adherent = adherent;
+          this.loading = false;
+          this.success = true;
+        });
     } else {
       console.error('Registration form is not valid');
     }

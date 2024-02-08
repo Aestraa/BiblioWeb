@@ -47,14 +47,16 @@ class AdherentController extends AbstractController
 
         // Mise à jour des informations de l'utilisateur lié à l'adhérent
         $utilisateur = $adherent->getUtilisateur();
-        $utilisateur->setEmail($data['Email']);
-        $utilisateur->setNom($data['Nom']);
-        $utilisateur->setPrenom($data['Prenom']);
-        $dateNaiss = new DateTime($data['DateNaiss']);
+        $utilisateur->setEmail($data['email']);
+        $utilisateur->setNom($data['nom']);
+        $utilisateur->setPrenom($data['prenom']);
+        $dateNaiss = new DateTime($data['dateNaiss']);
         $utilisateur->setDateNaiss($dateNaiss);
-        $utilisateur->setAdressePostale($data['AdressePostale']);
-        $utilisateur->setNumTel($data['NumTel']);
-        $utilisateur->setPhoto($data['Photo']);
+        $utilisateur->setAdressePostale($data['adressePostale']);
+        $utilisateur->setNumTel($data['numTel']);
+        if (isset($data['photo'])) {
+            $utilisateur->setPhoto($data['photo']);
+        }
 
         // Mise à jour de la date de modification
         $utilisateur->setUpdatedAt(new DateTimeImmutable("now"));

@@ -155,6 +155,7 @@ export class ApiService {
     pays,
     numTel,
     photo,
+    token,
   }: {
     id: number;
     email: string;
@@ -166,19 +167,27 @@ export class ApiService {
     pays: string;
     numTel: string;
     photo?: string;
-  }): Observable<Utilisateur> {
+    token: string;
+  }): Observable<Adherent> {
     adressePostale = adressePostale + ', ' + pays;
     dateNaiss = new Date(dateNaiss).toISOString();
-    return this.http.put<Utilisateur>(`${this.baseUrl}/adherent/modif`, {
-      email,
-      password,
-      dateNaiss,
-      prenom,
-      nom,
-      adressePostale,
-      numTel,
-      photo,
-    });
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<Adherent>(
+      `${this.baseUrl}/adherent/modif`,
+      {
+        email,
+        password,
+        dateNaiss,
+        prenom,
+        nom,
+        adressePostale,
+        numTel,
+        photo,
+      },
+      {
+        headers,
+      }
+    );
   }
 
   /**
@@ -193,62 +202,6 @@ export class ApiService {
     return this.http.get<Adherent>(`${this.baseUrl}/adherent`, {
       headers,
     });
-  }
-
-  // TODO: TO MODIFY WITH ADHERENT CLASS
-  /**
-   * Get the reservations of the user
-   * @param id the id of the user
-   * @param email the email of the user
-   * @param password the password of the user
-   * @param birthDate the birth date of the user
-   * @param firstname the first name of the user
-   * @param lastname the last name of the user
-   * @param address the address of the user
-   * @param country the country of the user
-   * @param phone the phone number of the user
-   * @param token the token of the user
-   * @returns Observable<Utilisateur> the user
-   */
-  public putAdherent({
-    id,
-    email,
-    password,
-    dateNaiss,
-    prenom,
-    nom,
-    adressePostale,
-    pays,
-    numTel,
-    token,
-  }: {
-    id: number;
-    email: string;
-    password: string;
-    dateNaiss: string;
-    prenom: string;
-    nom: string;
-    adressePostale: string;
-    pays: string;
-    numTel: string;
-    token: string;
-  }): Observable<Utilisateur> {
-    adressePostale = adressePostale + ', ' + pays;
-    dateNaiss = new Date(dateNaiss).toISOString();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<Utilisateur>(
-      `${this.baseUrl}/adherents/${id}`,
-      {
-        email,
-        password,
-        dateNaiss,
-        prenom,
-        nom,
-        adressePostale,
-        numTel,
-      },
-      { headers }
-    );
   }
 
   // TODO: ADAPT WITH API
