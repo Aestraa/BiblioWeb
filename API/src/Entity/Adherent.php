@@ -25,11 +25,12 @@ class Adherent
     private ?\DateTimeInterface $dateAdhesion = null;
 
     #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
-    #[Groups(['emprunt:read', 'emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write', 'adherent:read'])]
     #[SerializedName('emprunts')]
     private Collection $emprunts;
 
     #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class)]
+    #[Groups(['adherent:read'])]
     private Collection $reservations;
 
     #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]
