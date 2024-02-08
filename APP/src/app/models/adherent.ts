@@ -4,6 +4,7 @@ import { Utilisateur } from './utilisateur';
 
 /**
  * Adherent model
+ * @param {number} id - The id of the adherent
  * @param {Utilisateur} utilisateur - The user of the adherent
  * @param {Date} date_adhesion - The adhesion date of the adherent
  * @param {Emprunt[]} emprunts - The loans of the adherent
@@ -11,6 +12,7 @@ import { Utilisateur } from './utilisateur';
  */
 export class Adherent {
   constructor(
+    public id:number,
     public utilisateur: Utilisateur,
     public dateAdhesion: Date,
     public emprunts: Emprunt[] = [],

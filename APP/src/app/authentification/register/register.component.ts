@@ -34,6 +34,7 @@ export class RegisterComponent {
           Validators.required,
           Validators.pattern(/^\+?\d{10,}$/),
         ]),
+        img: new FormControl('', [Validators.nullValidator]),
         password: new FormControl('', [
           Validators.required,
           Validators.minLength(6),

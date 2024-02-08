@@ -16,6 +16,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { ShowLivreComponent } from './show-livre/show-livre.component';
 import { ReservationComponent } from './reservations/reservation/reservation.component';
+import { AdherentComponent } from './adherent/adherent.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ReservationComponent } from './reservations/reservation/reservation.com
     ShowLivreComponent,
     ReservationsComponent,
     ReservationComponent,
+    AdherentComponent,
   ],
   imports: [
     BrowserModule,
