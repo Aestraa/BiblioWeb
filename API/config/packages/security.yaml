@@ -37,6 +37,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\AdminAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -47,6 +52,7 @@ security:
         - { path: ^/api/livre/search, roles: PUBLIC_ACCESS }
         - { path: ^/api/livre/\d+, roles: PUBLIC_ACCESS }
         - { path: ^/api,       roles: ROLE_USER  }
+        - { path: ^/admin, roles: ROLE_ADHERENT }
 
 when@test:
     security:
