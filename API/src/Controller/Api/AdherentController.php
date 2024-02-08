@@ -34,7 +34,7 @@ class AdherentController extends AbstractController
 
 
     //put pour modif
-    #[Route('/api/adherent/modif/{id}', methods: ['PUT'])]
+    #[Route('/api/adherent/modif', methods: ['PUT'])]
     public function update(Request $request, EntityManagerInterface $entityManager, Adherent $adherent): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -49,7 +49,6 @@ class AdherentController extends AbstractController
         $utilisateur->setAdressePostale($data['AdressePostale']);
         $utilisateur->setNumTel($data['NumTel']);
         $utilisateur->setPhoto($data['Photo']);
-        //mise à jour du mot de passe si nécessaire
 
         // Mise à jour de la date de modification
         $utilisateur->setUpdatedAt(new DateTimeImmutable("now"));
@@ -67,7 +66,6 @@ class AdherentController extends AbstractController
     public function getById(Request $request): JsonResponse
     {
         // Vous pouvez accéder directement à l'adhérent grâce à l'injection de dépendances
-        // Symfony chargera l'adhérent correspondant à l'ID passé dans l'URL
         // recherche avec le token
         $user = $this->getUser();
         if (!$user instanceof Utilisateur) {

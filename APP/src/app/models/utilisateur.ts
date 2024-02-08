@@ -6,9 +6,9 @@ import { Adherent } from './adherent';
  * @param {string} email - The email of the user
  * @param {string} nom - The last name of the user
  * @param {string} prenom - The first name of the user
- * @param {Date} date_naiss - The birth date of the user
- * @param {string} adresse_postale - The postal address of the user
- * @param {string} num_tel - The phone number of the user
+ * @param {Date} dateNaiss - The birth date of the user
+ * @param {string} adressePostale - The postal address of the user
+ * @param {string} numTel - The phone number of the user
  * @param {string} photo - The photo of the user
  * @param {string[]} roles - The roles of the user
  * @param {Date} created_at - The creation date of the user

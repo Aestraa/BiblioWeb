@@ -1,76 +1,96 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Adherent } from '../models/adherent';
 import { ApiService } from '../services/api.service';
-import { Utilisateur } from '../models/utilisateur';
-import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-
-const Util = new Utilisateur(11,"test@test.com", "test", "test", new Date("1992-11-02"),"test,France","0612345678","test",["ROLE_ADHERENT","ROLE_USER"],new Date("01/01/1990"),new Date("01/01/1990"), null);
 
 @Component({
   selector: 'app-adherent',
   templateUrl: './adherent.component.html',
-  styleUrl: './adherent.component.css'
+  styleUrls: ['./adherent.component.css'],
 })
-export class AdherentComponent {
-  loading = false;
-  adresse: string[] | undefined
-  date: string[] | undefined
-  adherent = new Adherent(11,Util, new Date("01/01/1990"), [],[]);
-  registerForm: FormGroup;
+export class AdherentComponent implements OnInit {
+  loading = true;
+  adresse: string[] | undefined;
+  date: string[] | undefined;
+  adherent!: Adherent;
+  modifForm: FormGroup;
 
-
-  constructor(private api: ApiService, private router: Router, private auth: AuthService) {
-    this.adresse = this.adherent.utilisateur.adressePostale.split(",");
-    this.date = this.adherent.utilisateur.dateNaiss.toISOString().split("T");
-    this.registerForm = new FormGroup(
+  constructor(private api: ApiService, private auth: AuthService) {
+    this.modifForm = new FormGroup(
       {
-        email: new FormControl(this.adherent.utilisateur.email, [Validators.required, Validators.email]),
-        dateNaiss: new FormControl(this.date[0], [
+        email: new FormControl('', [Validators.required, Validators.email]),
+        dateNaiss: new FormControl('', [
           Validators.required,
           Validators.pattern(/^\d{4}-\d{2}-\d{2}$/),
         ]),
-        prenom: new FormControl(this.adherent.utilisateur.prenom, [Validators.required]),
-        nom: new FormControl(this.adherent.utilisateur.nom, [Validators.required]),
-        adressePostale: new FormControl(this.adresse[0], [Validators.required]),
-        pays: new FormControl(this.adresse[1], [Validators.required]),
-        numTel: new FormControl(this.adherent.utilisateur.numTel, [
+        prenom: new FormControl('', [Validators.required]),
+        nom: new FormControl('', [Validators.required]),
+        adressePostale: new FormControl('', [Validators.required]),
+        pays: new FormControl('', [Validators.required]),
+        numTel: new FormControl('', [
           Validators.required,
           Validators.pattern(/^\+?\d{10,}$/),
         ]),
-        img: new FormControl('', [Validators.nullValidator]),
+        photo: new FormControl('', [Validators.nullValidator]),
       },
       { validators: this.passwordMatchValidator }
     );
   }
 
-  passwordMatchValidator: ValidatorFn | undefined
+  ngOnInit() {
+    this.api.getAdherent({ token: this.auth.token }).subscribe(
+      (adherent: Adherent) => {
+        this.adherent = adherent;
+        this.completeForm();
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error fetching adherent:', error);
+        this.loading = false;
+      }
+    );
+  }
+
+  completeForm() {
+    this.adresse = this.adherent.utilisateur.adressePostale.split(',');
+    this.date = new Date(this.adherent.utilisateur.dateNaiss)
+      .toISOString()
+      .split('T');
+    this.modifForm.get('email')?.setValue(this.adherent.utilisateur.email);
+    this.modifForm.get('dateNaiss')?.setValue(this.date[0]);
+    this.modifForm.get('prenom')?.setValue(this.adherent.utilisateur.prenom);
+    this.modifForm.get('nom')?.setValue(this.adherent.utilisateur.nom);
+    this.modifForm.get('adressePostale')?.setValue(this.adresse[0].trim());
+    this.modifForm.get('pays')?.setValue(this.adresse[1].trim());
+    this.modifForm.get('numTel')?.setValue(this.adherent.utilisateur.numTel);
+    this.modifForm.get('photo')?.setValue(this.adherent.utilisateur.photo);
+  }
+
+  passwordMatchValidator: ValidatorFn = (
+    control: AbstractControl
+  ): { [key: string]: any } | null => {
+    const password = control.get('password');
+    const cpassword = control.get('cpassword');
+    return password && cpassword && password.value !== cpassword.value
+      ? { mismatch: true }
+      : null;
+  };
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      console.log('Registration form is valid', this.registerForm.value);
-      /*this.loading = true;
-      this.api.register({ ...this.registerForm.value }).subscribe(() => {
-        this.loading = false;*/
-        this.redirectTo('/adherent/'+this.adherent.id);
-      //});
+    if (this.modifForm.valid) {
+      this.loading = true;
+      this.api.modifierAdherent({ ...this.modifForm.value }).subscribe(() => {
+        this.loading = false;
+      });
     } else {
       console.error('Registration form is not valid');
     }
-  }
-
-  redirectTo(uri: string) {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([uri])});
-  }
-
-  ngOnInit(): void {
-    /*this.loading = true;
-    this.api.getAdherent({id:this.adherent.id, token: this.auth.token }).subscribe((data: any) => {
-      this.adherent = data as Adherent;
-      this.loading = false;
-    });*/
-
   }
 }
