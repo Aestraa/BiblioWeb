@@ -3,7 +3,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="email">Email</label>
-      <input type="email" formControlName="email" required id="email" />
+      <input type="email" formControlName="email" id="email" />
       <p
         *ngIf="loginForm.get('email')?.touched &&
         loginForm.get('email')?.errors?.['required']"
@@ -21,12 +21,7 @@
     </div>
     <div>
       <label for="password">Password</label>
-      <input
-        type="password"
-        formControlName="password"
-        required
-        id="password"
-      />
+      <input type="password" formControlName="password" id="password" />
       <p
         *ngIf="loginForm.get('password')?.touched &&
         loginForm.get('password')?.errors?.['required']"
@@ -47,6 +42,7 @@
         {{ loading ? "Loading..." : "Submit" }}
       </button>
     </div>
+    <p *ngIf="error" class="error">Field(s) are incorrect. Please try again.</p>
   </form>
   <div>
     <p>
@@ -55,3 +51,4 @@
     </p>
   </div>
 </fieldset>
+<app-loader *ngIf="loading"></app-loader>

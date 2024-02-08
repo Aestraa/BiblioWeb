@@ -36,6 +36,6 @@ class CategorieController extends AbstractController
         $entityManager->persist($categorie);
         $entityManager->flush();
 
-        return $this->json($categorie, JsonResponse::HTTP_CREATED);
+        return $this->json($categorie, JsonResponse::HTTP_CREATED, [], ['groups' => 'categorie:read']);
     }
 }

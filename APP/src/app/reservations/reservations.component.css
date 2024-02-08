@@ -1,0 +1,21 @@
+fieldset {
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 10px;
+  width: 100%;
+}
+
+fieldset legend {
+  position: relative;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0px 10px;
+}
+
+div {
+  width: 100%;
+}

@@ -1,11 +1,35 @@
 <section>
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="livreSearchForm" (ngSubmit)="onSubmit()">
     <input
       type="text"
-      formControlName="search"
-      placeholder="Rechercher un livre"
+      formControlName="titre"
+      placeholder="Rechercher un titre"
       (change)="onChange($event)"
     />
+    <select formControlName="auteur" (change)="onChange($event)">
+      <option value="">Rechercher un auteur</option>
+      <option *ngFor="let auteur of auteurs" [value]="auteur">
+        {{ auteur.nom }}
+      </option>
+    </select>
+    <select formControlName="categorie" (change)="onChange($event)">
+      <option value="">Rechercher une catégorie</option>
+      <option *ngFor="let categorie of categories" [value]="categorie">
+        {{ categorie.nom }}
+      </option>
+    </select>
+    <input
+      type="date"
+      formControlName="date_sortie"
+      placeholder="Rechercher une date de sortie"
+      (change)="onChange($event)"
+    />
+    <select formControlName="langue" (change)="onChange($event)">
+      <option value="">Rechercher une langue</option>
+      <option *ngFor="let langue of langues" [value]="langue">
+        {{ langue }}
+      </option>
+    </select>
     <button type="submit">Rechercher</button>
   </form>
   <div *ngIf="livres.length === 0">

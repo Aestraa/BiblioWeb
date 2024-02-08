@@ -50,7 +50,7 @@ class BibliothequeFixtures extends Fixture
             $user->setDateNaiss($faker->dateTimeBetween('-50 years', '-20 years'));
             $user->setAdressePostale($faker->address);
             $user->setNumTel($faker->phoneNumber);
-            $user->setPhoto("https://picsum.photos/300/300");
+            $user->setPhoto("https://picsum.photos/300/300?image=$i");
             $user->setPassword($faker->password);
             $user->setCreatedAt($createdAt);
             
@@ -87,7 +87,7 @@ class BibliothequeFixtures extends Fixture
             $auteur->setDateNaissance($faker->dateTimeBetween('-100 years', '-50 years'));
             $auteur->setDateDeces($faker->dateTimeBetween('-50 years', 'now'));
             $auteur->setNationalite($faker->country);
-            $auteur->setPhoto("https://picsum.photos/300/300");
+            $auteur->setPhoto("https://picsum.photos/300/300?image=$i");
             $auteur->setDescription($faker->text);
             $auteur->setCreatedAt($createdAt);
 
@@ -114,7 +114,7 @@ class BibliothequeFixtures extends Fixture
             $livre->setTitre($faker->sentence(3));
             $livre->setDateSortie($faker->dateTimeBetween('-20 years', 'now'));
             $livre->setLangue($faker->languageCode());
-            $livre->setPhotoCouverture("https://picsum.photos/400/600");
+            $livre->setPhotoCouverture("https://picsum.photos/400/600?image=$i");
             $livre->setCreatedAt($createdAt);
 
             // ajout des auteurs

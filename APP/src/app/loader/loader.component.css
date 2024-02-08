@@ -8,8 +8,9 @@ div {
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 9999;
   gap: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 p {
@@ -68,4 +69,11 @@ p {
     box-shadow: 0 0 0 1rem var(--primary);
     opacity: 1;
   }
+}
+
+p {
+  font-size: 2rem;
+  color: var(--primary);
+  text-shadow: 0 0 1rem var(--primary);
+  font-weight: bold;
 }

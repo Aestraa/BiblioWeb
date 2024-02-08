@@ -24,13 +24,13 @@
       </p>
     </div>
     <div>
-      <label for="birthDate">Birth date</label>
-      <input type="date" formControlName="birthDate" />
+      <label for="dateNaiss">Birth date</label>
+      <input type="date" formControlName="dateNaiss" />
       <p
         class="small"
         *ngIf="
-          registerForm.get('birthDate')?.touched &&
-          registerForm.get('birthDate')?.hasError('required')
+          registerForm.get('dateNaiss')?.touched &&
+          registerForm.get('dateNaiss')?.hasError('required')
         "
       >
         Birth date is required.
@@ -38,8 +38,8 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('birthDate')?.touched &&
-          registerForm.get('birthDate')?.hasError('pattern')
+          registerForm.get('dateNaiss')?.touched &&
+          registerForm.get('dateNaiss')?.hasError('pattern')
         "
       >
         Please enter a valid date.
@@ -47,26 +47,26 @@
     </div>
     <div class="group">
       <div>
-        <label for="firstname">Firstname</label>
-        <input type="text" formControlName="firstname" />
+        <label for="prenom">Firstname</label>
+        <input type="text" formControlName="prenom" />
         <p
           class="small"
           *ngIf="
-            registerForm.get('firstname')?.touched &&
-            registerForm.get('firstname')?.hasError('required')
+            registerForm.get('prenom')?.touched &&
+            registerForm.get('prenom')?.hasError('required')
           "
         >
           Firstname is required.
         </p>
       </div>
       <div>
-        <label for="lastname">Lastname</label>
-        <input type="text" formControlName="lastname" />
+        <label for="nom">Lastname</label>
+        <input type="text" formControlName="nom" />
         <p
           class="small"
           *ngIf="
-            registerForm.get('lastname')?.touched &&
-            registerForm.get('lastname')?.hasError('required')
+            registerForm.get('nom')?.touched &&
+            registerForm.get('nom')?.hasError('required')
           "
         >
           Lastname is required.
@@ -75,26 +75,26 @@
     </div>
     <div class="group">
       <div>
-        <label for="address">Address</label>
-        <input type="text" formControlName="address" />
+        <label for="adressePostale">Address</label>
+        <input type="text" formControlName="adressePostale" />
         <p
           class="small"
           *ngIf="
-            registerForm.get('address')?.touched &&
-            registerForm.get('address')?.hasError('required')
+            registerForm.get('adressePostale')?.touched &&
+            registerForm.get('adressePostale')?.hasError('required')
           "
         >
           Address is required.
         </p>
       </div>
       <div>
-        <label for="country">Country</label>
-        <input type="text" formControlName="country" />
+        <label for="pays">Country</label>
+        <input type="text" formControlName="pays" />
         <p
           class="small"
           *ngIf="
-            registerForm.get('country')?.touched &&
-            registerForm.get('country')?.hasError('required')
+            registerForm.get('pays')?.touched &&
+            registerForm.get('pays')?.hasError('required')
           "
         >
           Country is required.
@@ -102,13 +102,13 @@
       </div>
     </div>
     <div>
-      <label for="phone">Phone</label>
-      <input type="tel" formControlName="phone" />
+      <label for="numTel">Phone</label>
+      <input type="tel" formControlName="numTel" />
       <p
         class="small"
         *ngIf="
-          registerForm.get('phone')?.touched &&
-          registerForm.get('phone')?.hasError('required')
+          registerForm.get('numTel')?.touched &&
+          registerForm.get('numTel')?.hasError('required')
         "
       >
         Phone is required.
@@ -116,8 +116,8 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('phone')?.touched &&
-          registerForm.get('phone')?.hasError('pattern')
+          registerForm.get('numTel')?.touched &&
+          registerForm.get('numTel')?.hasError('pattern')
         "
       >
         Please enter a valid phone number.
@@ -182,3 +182,4 @@
     </p>
   </div>
 </fieldset>
+<app-loader *ngIf="loading"></app-loader>

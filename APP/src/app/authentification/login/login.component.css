@@ -107,3 +107,10 @@ fieldset div p.small {
   color: var(--red);
   text-align: start;
 }
+
+p.error {
+  font-size: 1.2em;
+  color: var(--red);
+  text-align: center;
+  margin-top: 10px;
+}

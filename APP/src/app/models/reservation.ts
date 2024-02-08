@@ -19,12 +19,12 @@ export class Reservation {
     public dateResaFin: Date,
     public createdAt: Date,
     public updatedAt: Date,
-    public livre: Livre,
-    public adherent: Adherent
+    public Lier: Livre,
+    public Faire: Adherent
   ) {
-    if (adherent.reservations.length >= 3)
+    if (Faire.reservations.length >= 3)
       throw new Error('Un adhérent ne peut pas réserver plus de 3 livres');
-    adherent.reservations.push(this);
-    livre.reservations.push(this);
+    Faire.reservations.push(this);
+    Lier.reservations = this;
   }
 }
