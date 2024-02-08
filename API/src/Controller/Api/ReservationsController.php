@@ -22,7 +22,14 @@ class ReservationsController extends AbstractController
     #[Route('/api/reservations', methods: ['GET'])]
     public function index(ReservationsRepository $reservationRepository): JsonResponse
     {
-        $reservations = $reservationRepository->findAll();
+        // recherche avec le token
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+
+        $reservations = $reservationRepository->findByID($adherent->getId());
         return $this->json($reservations, 200, [], ['groups' => 'reservation:read']);
     }
 
@@ -40,7 +47,13 @@ class ReservationsController extends AbstractController
         $reservation->setDateResaFin($dateRetour);
 
         $reservation->setLier($entityManager->getReference(Livre::class, $data['Livre']));
-        $reservation->setFaire($entityManager->getReference(Adherent::class, $data['Adherent']));
+
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+        $reservation->setFaire($entityManager->getReference(Adherent::class, $adherent->getId()));
 
         $reservation->setCreatedAt(new DateTimeImmutable("now"));
         $reservation->setUpdatedAt(new DateTimeImmutable("now"));

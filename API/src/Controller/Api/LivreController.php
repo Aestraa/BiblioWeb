@@ -23,20 +23,64 @@ class LivreController extends AbstractController
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
 
-    #[Route('/api/livre/search/{query}', methods: ['GET'])]
-    public function searchByTitle(Request $request, string $query, LivreRepository $livreRepository): JsonResponse
+    #[Route('/api/livre/search', methods: ['GET'])]
+    public function searchBy(Request $request, LivreRepository $livreRepository): JsonResponse
     {
-        $query = $query ?? null;
+        // Récupérer le paramètre de requête 'query'
+        $choix = '';
+        $query = $request->query->get('categorie');
+        $choix = 'categorie';
 
-        if (!$query) {
-            return $this->json(['message' => 'Parameter "query" is required.'], JsonResponse::HTTP_BAD_REQUEST);
+        if ($query === null) {
+            $query = $request->query->get('auteur');
+            $choix = 'auteur';
+        }
+        if ($query === null) {
+            $query = $request->query->get('date_sortie');
+            $choix = 'date_sortie';
+        }
+        if ($query === null) {
+            $query = $request->query->get('langue');
+            $choix = 'langue';
+        }
+        if ($query === null) {
+            $query = $request->query->get('titre');
+            $choix = 'titre';
         }
 
-        $livres = $livreRepository->findByPartialTitle($query);
+        if ($query === null) {
+            return $this->json(['message' => 'Aucun paramètre de recherche fourni.'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        // Vérifier si la variable est une autre propriété
+
+        // Appeler la méthode correspondante en fonction de la propriété
+        switch ($choix) {
+            case 'categorie':
+                $livres = $livreRepository->findByCategory($query);
+                break;
+            case 'auteur':
+                // Diviser la chaîne en nom et prénom
+                $parts = explode(' ', $query);
+                $nom = $parts[0];
+                $prenom = isset($parts[1]) ? $parts[1] : '';
+                $livres = $livreRepository->findByAuthor($nom, $prenom);
+                break;
+            case 'date_sortie':
+                $livres = $livreRepository->findByCreationDate($query);
+                break;
+            case 'langue':
+                $livres = $livreRepository->findByNationality($query);
+                break;
+            case 'titre':
+                $livres = $livreRepository->findByPartialTitle($query);
+                break;
+            default:
+                return $this->json(['message' => 'Propriété de recherche invalide.','query' => $query,'choix' => $choix], JsonResponse::HTTP_BAD_REQUEST);
+        }
 
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
-
 
     #[Route('/api/livre', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse

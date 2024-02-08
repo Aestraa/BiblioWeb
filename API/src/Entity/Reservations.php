@@ -26,9 +26,10 @@ class Reservations
     #[Groups(['reservation:read','reservation:write'])]
     private ?Adherent $Faire = null;
 
-    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reservations')]
     #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?Livre $Lier = null;
+
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
