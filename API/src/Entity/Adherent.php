@@ -17,7 +17,7 @@ class Adherent
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['adherent:read', 'emprunt:read','reservation:read'])]
+    #[Groups(['adherent:read', 'emprunt:read', 'reservation:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -34,7 +34,7 @@ class Adherent
     private Collection $reservations;
 
     #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]
-    #[Groups(['adherent:read', 'adherent:write','reservation:read', 'reservation:write'])]
+    #[Groups(['adherent:read', 'adherent:write', 'reservation:read', 'reservation:write'])]
     private ?Utilisateur $utilisateur = null;
 
     public function __construct()
@@ -144,5 +144,10 @@ class Adherent
         $this->utilisateur = $utilisateur;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->utilisateur->getNom();
     }
 }

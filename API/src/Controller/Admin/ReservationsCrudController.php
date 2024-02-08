@@ -6,8 +6,7 @@ use App\Entity\Reservations;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class ReservationsCrudController extends AbstractCrudController
 {
@@ -19,9 +18,11 @@ class ReservationsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             DateField::new('dateResa'),
             DateField::new('dateResaFin'),
+            AssociationField::new('Lier')->setLabel('Livre'),
+            AssociationField::new('Faire')->setLabel('Adherent'),
         ];
     }
 

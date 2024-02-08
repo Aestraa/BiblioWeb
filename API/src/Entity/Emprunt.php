@@ -20,29 +20,29 @@ class Emprunt
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','livre:read','livre:write'])]
+    #[Groups(['adherent:read', 'adherent:write', 'emprunt:read', 'emprunt:write', 'livre:read', 'livre:write'])]
     private ?\DateTimeInterface $dateEmprunt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write','livre:read','livre:write'])]
+    #[Groups(['adherent:read', 'adherent:write', 'emprunt:read', 'emprunt:write', 'livre:read', 'livre:write'])]
     private ?\DateTimeInterface $dateRetour = null;
 
     #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts')]
-    #[Groups(['emprunt:read','emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write'])]
     #[MaxDepth(1)]
     private Collection $Relier;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
-    #[Groups(['adherent:read','adherent:write','emprunt:read','emprunt:write'])]
+    #[Groups(['adherent:read', 'adherent:write', 'emprunt:read', 'emprunt:write'])]
     #[MaxDepth(1)]
     private ?Livre $Correspondre = null;
 
     #[ORM\Column]
-    #[Groups(['emprunt:read','emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['emprunt:read','emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()

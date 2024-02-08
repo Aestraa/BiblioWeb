@@ -35,7 +35,8 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),            ]
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+            ]
         );
     }
 
@@ -45,7 +46,10 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        if ( in_array( 'ROLE_ADHERENT', $token->getUser()->getRoles() ) ) {
+        if (
+            in_array('ROLE_BIBLIOTHECAIRE', $token->getUser()->getRoles()) ||
+            in_array('ROLE_RESPONSABLE', $token->getUser()->getRoles())
+        ) {
             return new RedirectResponse("/admin");
         } else {
             return new RedirectResponse("/");

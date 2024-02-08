@@ -17,7 +17,7 @@ class Livre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['livre:read', 'emprunt:read','reservation:read','adherent:read'])]
+    #[Groups(['livre:read', 'emprunt:read', 'reservation:read', 'adherent:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -252,5 +252,10 @@ class Livre
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->titre;
     }
 }
