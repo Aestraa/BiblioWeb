@@ -36,11 +36,9 @@ class Reservations
     private ?\DateTime $dateResaFin = null;
 
     #[ORM\Column]
-    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
