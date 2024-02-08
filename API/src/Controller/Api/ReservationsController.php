@@ -34,8 +34,20 @@ class ReservationsController extends AbstractController
     }
 
     #[Route('/api/reservation', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function create(Request $request, EntityManagerInterface $entityManager,ReservationsRepository $reservationRepository): JsonResponse
+    {   
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+
+        $reservations = $reservationRepository->findByID($adherent->getId());
+
+        if(count($reservations) >= 3){
+            return $this->json(['message' => 'Vous avez déjà 3 réservations en cours'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
         $data = json_decode($request->getContent(), true);
 
         $reservation = new Reservations();
