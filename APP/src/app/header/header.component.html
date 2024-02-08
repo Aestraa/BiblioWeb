@@ -16,7 +16,18 @@
           </li>
           <li><a routerLink="/livres">Livres</a></li>
           <li><a routerLink="#">Autres</a></li>
-          <li><a routerLink="/auth/login">Se connecter</a></li>
+          <li *ngIf="!auth.isLogged">
+            <a routerLink="/auth/login">Se connecter</a>
+          </li>
+          <li *ngIf="auth.isLogged">
+            <a routerLink="/compte">Mon profile</a>
+          </li>
+          <li *ngIf="auth.isLogged">
+            <a (click)="auth.logout()">Se déconnecter</a>
+          </li>
+          <li *ngIf="auth.isLogged">
+            <a routerLink="/reservations">Mes réservations</a>
+          </li>
         </ul>
       </div>
     </div>

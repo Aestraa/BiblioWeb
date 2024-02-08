@@ -10,7 +10,7 @@ div {
   height: 100vh;
   z-index: 9999;
   gap: 5px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 p {
@@ -74,6 +74,6 @@ p {
 p {
   font-size: 2rem;
   color: var(--primary);
-  text-shadow: 0 0 1rem rgba(var(--primary), 0.75);
+  text-shadow: 0 0 1rem var(--primary);
   font-weight: bold;
 }

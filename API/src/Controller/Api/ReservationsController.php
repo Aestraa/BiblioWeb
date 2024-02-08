@@ -40,7 +40,13 @@ class ReservationsController extends AbstractController
         $reservation->setDateResaFin($dateRetour);
 
         $reservation->setLier($entityManager->getReference(Livre::class, $data['Livre']));
-        $reservation->setFaire($entityManager->getReference(Adherent::class, $data['Adherent']));
+
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+        $reservation->setFaire($entityManager->getReference(Adherent::class, $adherent->getId()));
 
         $reservation->setCreatedAt(new DateTimeImmutable("now"));
         $reservation->setUpdatedAt(new DateTimeImmutable("now"));

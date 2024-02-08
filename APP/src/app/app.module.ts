@@ -13,8 +13,9 @@ import { HeadercssService } from './headercss.service';
 import { LivreComponent } from './livres/livre/livre.component';
 import { LivresComponent } from './livres/livres.component';
 import { LoaderComponent } from './loader/loader.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 import { ShowLivreComponent } from './show-livre/show-livre.component';
-import { ReservationComponent } from './reservation/reservation.component';
+import { ReservationComponent } from './reservations/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ReservationComponent } from './reservation/reservation.component';
     LivreComponent,
     LoaderComponent,
     ShowLivreComponent,
+    ReservationsComponent,
     ReservationComponent,
   ],
   imports: [

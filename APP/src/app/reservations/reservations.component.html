@@ -1,0 +1,8 @@
+<app-loader *ngIf="loading"></app-loader>
+<fieldset>
+  <legend>Mes réservations</legend>
+  <app-reservation
+    *ngFor="let reservation of reservations"
+    [reservation]="reservation"
+  ></app-reservation>
+</fieldset>
