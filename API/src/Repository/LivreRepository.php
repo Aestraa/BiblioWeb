@@ -46,53 +46,45 @@ class LivreRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findByPartialTitle(string $query)
+    public function findByMultipleCriteria(string $categorie = null, string $titre = null, string $auteurNom = null, string $auteurPrenom = null, \DateTimeInterface $dateSortie = null, string $langue = null): array
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.titre LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
-            ->getQuery()
-            ->getResult();
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->select('l')
+            ->leftJoin('l.categories', 'c') // Assurez-vous que l'association categories est correctement configurée dans votre entité Livre
+            ->leftJoin('l.auteurs', 'a'); // Assurez-vous que l'association auteurs est correctement configurée dans votre entité Livre
+
+        if ($categorie !== null) {
+            $queryBuilder->andWhere('c.nom = :categorie')
+                ->setParameter('categorie', $categorie);
+        }
+
+        if ($titre !== null) {
+            // Si le titre est incomplet, recherchez les livres dont le titre contient la sous-chaîne fournie
+            $queryBuilder->andWhere('l.titre LIKE :titre')
+                ->setParameter('titre', '%' . $titre . '%');
+        }
+
+        if ($auteurNom !== null) {
+            $queryBuilder->andWhere('a.nom = :auteurNom')
+                ->setParameter('auteurNom', $auteurNom);
+        }
+
+        if ($auteurPrenom !== null) {
+            $queryBuilder->andWhere('a.prenom = :auteurPrenom')
+                ->setParameter('auteurPrenom', $auteurPrenom);
+        }
+
+        if ($dateSortie !== null) {
+            $queryBuilder->andWhere('l.dateSortie >= :dateSortie')
+                ->setParameter('dateSortie', $dateSortie);
+        }
+
+        if ($langue !== null) {
+            $queryBuilder->andWhere('l.langue = :langue')
+                ->setParameter('langue', $langue);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
-
-    public function findByCategory(string $category): array
-    {
-        return $this->createQueryBuilder('l')
-            ->leftJoin('l.categories', 'c')
-            ->where('c.nom = :category')
-            ->setParameter('category', $category)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByAuthor(string $nom, string $prenom): array
-    {
-        return $this->createQueryBuilder('l')
-            ->leftJoin('l.auteurs', 'a')
-            ->where('a.nom = :nom')
-            ->andWhere('a.prenom = :prenom')
-            ->setParameter('nom', $nom)
-            ->setParameter('prenom', $prenom)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByCreationDate(string $date): array
-    {
-        return $this->createQueryBuilder('l')
-            ->where('l.dateSortie > :date')
-            ->setParameter('date', $date)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findByNationality(string $langue): array
-    {
-        return $this->createQueryBuilder('l')
-            ->where('l.langue = :langue')
-            ->setParameter('langue', $langue)
-            ->getQuery()
-            ->getResult();
-    }
 }

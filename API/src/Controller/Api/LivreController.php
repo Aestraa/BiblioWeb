@@ -26,59 +26,18 @@ class LivreController extends AbstractController
     #[Route('/api/livre/search', methods: ['GET'])]
     public function searchBy(Request $request, LivreRepository $livreRepository): JsonResponse
     {
-        // Récupérer le paramètre de requête 'query'
-        $choix = '';
-        $query = $request->query->get('categorie');
-        $choix = 'categorie';
 
-        if ($query === null) {
-            $query = $request->query->get('auteur');
-            $choix = 'auteur';
-        }
-        if ($query === null) {
-            $query = $request->query->get('date_sortie');
-            $choix = 'date_sortie';
-        }
-        if ($query === null) {
-            $query = $request->query->get('langue');
-            $choix = 'langue';
-        }
-        if ($query === null) {
-            $query = $request->query->get('titre');
-            $choix = 'titre';
-        }
+        // Récupérer les paramètres de recherche de la requête
+        $categorie = $request->query->get('categorie');
+        $titre = $request->query->get('titre');
+        $auteurNom = $request->query->get('auteur_nom');
+        $auteurPrenom = $request->query->get('auteur_prenom');
+        $dateSortie = $request->query->get('date_sortie');
+        $langue = $request->query->get('langue');
 
-        if ($query === null) {
-            return $this->json(['message' => 'Aucun paramètre de recherche fourni.'], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        // Vérifier si la variable est une autre propriété
-
-        // Appeler la méthode correspondante en fonction de la propriété
-        switch ($choix) {
-            case 'categorie':
-                $livres = $livreRepository->findByCategory($query);
-                break;
-            case 'auteur':
-                // Diviser la chaîne en nom et prénom
-                $parts = explode(' ', $query);
-                $nom = $parts[0];
-                $prenom = isset($parts[1]) ? $parts[1] : '';
-                $livres = $livreRepository->findByAuthor($nom, $prenom);
-                break;
-            case 'date_sortie':
-                $livres = $livreRepository->findByCreationDate($query);
-                break;
-            case 'langue':
-                $livres = $livreRepository->findByNationality($query);
-                break;
-            case 'titre':
-                $livres = $livreRepository->findByPartialTitle($query);
-                break;
-            default:
-                return $this->json(['message' => 'Propriété de recherche invalide.','query' => $query,'choix' => $choix], JsonResponse::HTTP_BAD_REQUEST);
-        }
-
+        // Effectuer la recherche en utilisant les paramètres fournis
+        $livres = $livreRepository->findByMultipleCriteria($categorie, $titre, $auteurNom, $auteurPrenom, $dateSortie, $langue);
+        
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
   
