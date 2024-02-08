@@ -6,6 +6,7 @@ import { RegisterComponent } from './authentification/register/register.componen
 import { LivresComponent } from './livres/livres.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { ShowLivreComponent } from './show-livre/show-livre.component';
+import { AdherentComponent } from './adherent/adherent.component';
 
 const routes: Routes = [
   { path: '', component: AccueilComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'auth/register', component: RegisterComponent },
   { path: 'livres', component: LivresComponent },
   { path: 'livre/:id', component: ShowLivreComponent },
+  { path: 'adherent/:id', component: AdherentComponent },
   { path: 'reservations', component: ReservationsComponent },
 ];
 
