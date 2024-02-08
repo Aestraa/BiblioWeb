@@ -22,7 +22,14 @@ class ReservationsController extends AbstractController
     #[Route('/api/reservations', methods: ['GET'])]
     public function index(ReservationsRepository $reservationRepository): JsonResponse
     {
-        $reservations = $reservationRepository->findAll();
+        // recherche avec le token
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+
+        $reservations = $reservationRepository->findByID($adherent->getId());
         return $this->json($reservations, 200, [], ['groups' => 'reservation:read']);
     }
 

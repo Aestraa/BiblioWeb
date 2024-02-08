@@ -45,4 +45,13 @@ class ReservationsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByID(int $adherentId): array
+    {
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.Faire', 'a')
+            ->andWhere('a.id = :adherentId')
+            ->setParameter('adherentId', $adherentId)
+            ->getQuery()
+            ->getResult();
+    }
 }

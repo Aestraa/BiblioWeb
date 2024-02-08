@@ -26,20 +26,19 @@ class Reservations
     #[Groups(['reservation:read','reservation:write'])]
     private ?Adherent $Faire = null;
 
-    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reservations')]
     #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?Livre $Lier = null;
+
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?\DateTime $dateResaFin = null;
 
     #[ORM\Column]
-    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
