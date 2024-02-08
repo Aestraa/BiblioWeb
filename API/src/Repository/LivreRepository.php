@@ -53,33 +53,33 @@ class LivreRepository extends ServiceEntityRepository
             ->leftJoin('l.categories', 'c') // Assurez-vous que l'association categories est correctement configurée dans votre entité Livre
             ->leftJoin('l.auteurs', 'a'); // Assurez-vous que l'association auteurs est correctement configurée dans votre entité Livre
 
-        if ($categorie !== null) {
+        if ($categorie !== null && $categorie !== '') {
             $queryBuilder->andWhere('c.nom = :categorie')
                 ->setParameter('categorie', $categorie);
         }
 
-        if ($titre !== null) {
+        if ($titre !== null && $titre !== '') { 
             // Si le titre est incomplet, recherchez les livres dont le titre contient la sous-chaîne fournie
             $queryBuilder->andWhere('l.titre LIKE :titre')
                 ->setParameter('titre', '%' . $titre . '%');
         }
 
-        if ($auteurNom !== null) {
+        if ($auteurNom !== null && $auteurNom !== '') {
             $queryBuilder->andWhere('a.nom = :auteurNom')
                 ->setParameter('auteurNom', $auteurNom);
         }
 
-        if ($auteurPrenom !== null) {
+        if ($auteurPrenom !== null && $auteurPrenom !== '') {
             $queryBuilder->andWhere('a.prenom = :auteurPrenom')
                 ->setParameter('auteurPrenom', $auteurPrenom);
         }
 
-        if ($dateSortie !== null) {
+        if ($dateSortie !== null && $dateSortie !== '') {
             $queryBuilder->andWhere('l.dateSortie >= :dateSortie')
                 ->setParameter('dateSortie', $dateSortie);
         }
 
-        if ($langue !== null) {
+        if ($langue !== null && $langue !== '') {
             $queryBuilder->andWhere('l.langue = :langue')
                 ->setParameter('langue', $langue);
         }

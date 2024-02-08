@@ -1,16 +1,16 @@
-<div class="livre" *ngIf="!suppression">
+<div class="reservation" *ngIf="!suppression">
   <div>
-    <img [src]="reservation.livre.photoCouverture" alt="Image du livre" />
+    <img [src]="reservation.Lier.photoCouverture" alt="Image du livre" />
   </div>
   <div>
-    <h1>{{ reservation.livre.titre }}</h1>
+    <h1>{{ reservation.Lier.titre }}</h1>
     <p>Date réservation: {{ reservation.dateResa | date : "dd/MM/yyyy" }}</p>
-    <p>Date fin de réservation : {{ reservation.dateResaFin }}</p>
+    <p>
+      Date fin de réservation :
+      {{ reservation.dateResaFin | date : "dd/MM/yyyy" }}
+    </p>
     <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
-      <input type="hidden" formControlName="id" [value]="reservation.id" />
-      <button type="submit" [disabled]="!reservationForm.valid">
-        Annuler la réservation
-      </button>
+      <button type="submit">Annuler la réservation</button>
     </form>
   </div>
 </div>

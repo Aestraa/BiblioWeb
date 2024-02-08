@@ -61,15 +61,13 @@ class ReservationsController extends AbstractController
         $entityManager->persist($reservation);
         $entityManager->flush();
 
-        return $this->json($reservation, JsonResponse::HTTP_CREATED, ['groups' => 'reservation:read']);
+        return $this->json($reservation, JsonResponse::HTTP_CREATED, [], ['groups' => 'reservation:read']);
     }
 
-    #[Route('/api/reservation', methods: ['DELETE'])]
-    public function cancel(Request $request, ReservationsRepository $reservationsRepository, EntityManagerInterface $entityManager): JsonResponse
+    #[Route('/api/reservation/{id}', methods: ['DELETE'])]
+    public function cancel(Request $request, int $id, ReservationsRepository $reservationsRepository, EntityManagerInterface $entityManager): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-
-        $reservation = $reservationsRepository->find($data['id']);
+        $reservation = $reservationsRepository->find($id);
 
         // Si la réservation n'existe pas, retourner une erreur
         if (!$reservation) {
@@ -88,7 +86,7 @@ class ReservationsController extends AbstractController
         ];
         
         // Si l'utilisateur n'est pas l'auteur de la réservation, retourner une erreur
-        if ($reservation->getFaire()->getId() !== $user->getId()) {
+        if ($reservation->getFaire()->getUtilisateur()->getId() !== $user->getId()) {
             return $this->json([
                 'message' => 'Vous n\'êtes pas autorisé à annuler cette réservation',
                 'debug' => $debugInfo,  // Ajoutez les informations de débogage ici

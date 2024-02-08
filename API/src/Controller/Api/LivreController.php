@@ -33,6 +33,7 @@ class LivreController extends AbstractController
         $auteurNom = $request->query->get('auteur_nom');
         $auteurPrenom = $request->query->get('auteur_prenom');
         $dateSortie = $request->query->get('date_sortie');
+        $dateSortie = $dateSortie ? new DateTime($dateSortie) : null;
         $langue = $request->query->get('langue');
 
         // Effectuer la recherche en utilisant les paramètres fournis

@@ -44,7 +44,7 @@ security:
         - { path: ^/api/adherent, roles: PUBLIC_ACCESS}
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/livres, roles: PUBLIC_ACCESS }
-        - { path: ^/api/livre/search/\w+, roles: PUBLIC_ACCESS }
+        - { path: ^/api/livre/search, roles: PUBLIC_ACCESS }
         - { path: ^/api/livre/\d+, roles: PUBLIC_ACCESS }
         - { path: ^/api,       roles: ROLE_USER  }
 

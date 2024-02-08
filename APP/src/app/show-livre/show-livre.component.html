@@ -32,21 +32,20 @@
         </div>
       </div>
       <!-- Réservations -->
-      <div *ngIf="livre.reservations">
+      <div *ngIf="livre.reservations !== null">
         <h3>Réservation</h3>
-        <p *ngIf="livre.reservations.length === 0">Aucune réservation</p>
-        <div *ngIf="livre.reservations.length > 0">
-          <p *ngFor="let reservation of livre.reservations">
-            Début : {{ reservation.dateResa | date : "dd/MM/yyyy" }} - Fin :
-            {{ reservation.dateResaFin | date : "dd/MM/yyyy" }}
-          </p>
+        <p *ngIf="livre.reservations === null">Aucune réservation</p>
+        <div *ngIf="livre.reservations !== null">
+          Début : {{ livre.reservations.dateResa | date : "dd/MM/yyyy" }} - Fin
+          :
+          {{ livre.reservations.dateResaFin | date : "dd/MM/yyyy" }}
         </div>
       </div>
       <!-- TODO: Check if the user is logged -->
       <form
         [formGroup]="reservationForm"
         (ngSubmit)="onSubmit()"
-        *ngIf="auth.isLogged && livre.reservations.length === 0"
+        *ngIf="auth.isLogged && livre.reservations === null"
       >
         <input type="hidden" formControlName="id" [value]="livre.id" />
         <button type="submit" [disabled]="!reservationForm.valid">
