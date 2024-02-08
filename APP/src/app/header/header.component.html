@@ -11,25 +11,18 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li>
-            <a routerLink="#">Evenement</a>
-          </li>
           <li><a routerLink="/livres">Livres</a></li>
-          <li><a routerLink="#">Autres</a></li>
           <li *ngIf="!auth.isLogged">
             <a routerLink="/auth/login">Se connecter</a>
           </li>
           <li *ngIf="auth.isLogged">
-            <a routerLink="/adherent/{{auth.token}}">Mon profile</a>
-          </li>
-          <li *ngIf="auth.isLogged">
-            <a (click)="logout()" style="cursor: pointer">Se déconnecter</a>
+            <a routerLink="/adherent">Mon profile</a>
           </li>
           <li *ngIf="auth.isLogged">
             <a routerLink="/reservations">Mes réservations</a>
           </li>
           <li *ngIf="auth.isLogged">
-            <a routerLink="/adherent">Gestion du compe</a>
+            <a (click)="logout()" style="cursor: pointer">Se déconnecter</a>
           </li>
         </ul>
       </div>

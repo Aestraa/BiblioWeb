@@ -2,19 +2,19 @@
   <p>Aucun adherent</p>
 </div>
 <div *ngIf="!loading && adherent != undefined">
-  <h1> Bienvenue {{ adherent.utilisateur.nom }}</h1>
+  <h1>Bienvenue {{ adherent.utilisateur.nom }}</h1>
 </div>
 <fieldset>
   <legend>Modifier</legend>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="modifForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="email">Email</label>
       <input type="email" formControlName="email" />
       <p
         class="small"
         *ngIf="
-          registerForm.get('email')?.touched &&
-          registerForm.get('email')?.hasError('required')
+          modifForm.get('email')?.touched &&
+          modifForm.get('email')?.hasError('required')
         "
       >
         Email is required.
@@ -22,8 +22,8 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('email')?.touched &&
-          registerForm.get('email')?.hasError('email')
+          modifForm.get('email')?.touched &&
+          modifForm.get('email')?.hasError('email')
         "
       >
         Please enter a valid email address.
@@ -35,8 +35,8 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('dateNaiss')?.touched &&
-          registerForm.get('dateNaiss')?.hasError('required')
+          modifForm.get('dateNaiss')?.touched &&
+          modifForm.get('dateNaiss')?.hasError('required')
         "
       >
         Birth date is required.
@@ -44,8 +44,8 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('dateNaiss')?.touched &&
-          registerForm.get('dateNaiss')?.hasError('pattern')
+          modifForm.get('dateNaiss')?.touched &&
+          modifForm.get('dateNaiss')?.hasError('pattern')
         "
       >
         Please enter a valid date.
@@ -58,8 +58,8 @@
         <p
           class="small"
           *ngIf="
-            registerForm.get('prenom')?.touched &&
-            registerForm.get('prenom')?.hasError('required')
+            modifForm.get('prenom')?.touched &&
+            modifForm.get('prenom')?.hasError('required')
           "
         >
           Firstname is required.
@@ -71,8 +71,8 @@
         <p
           class="small"
           *ngIf="
-            registerForm.get('nom')?.touched &&
-            registerForm.get('nom')?.hasError('required')
+            modifForm.get('nom')?.touched &&
+            modifForm.get('nom')?.hasError('required')
           "
         >
           Lastname is required.
@@ -86,8 +86,8 @@
         <p
           class="small"
           *ngIf="
-            registerForm.get('adressePostale')?.touched &&
-            registerForm.get('adressePostale')?.hasError('required')
+            modifForm.get('adressePostale')?.touched &&
+            modifForm.get('adressePostale')?.hasError('required')
           "
         >
           Address is required.
@@ -99,8 +99,8 @@
         <p
           class="small"
           *ngIf="
-            registerForm.get('pays')?.touched &&
-            registerForm.get('pays')?.hasError('required')
+            modifForm.get('pays')?.touched &&
+            modifForm.get('pays')?.hasError('required')
           "
         >
           Country is required.
@@ -113,8 +113,8 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('numTel')?.touched &&
-          registerForm.get('numTel')?.hasError('required')
+          modifForm.get('numTel')?.touched &&
+          modifForm.get('numTel')?.hasError('required')
         "
       >
         Phone is required.
@@ -122,23 +122,22 @@
       <p
         class="small"
         *ngIf="
-          registerForm.get('numTel')?.touched &&
-          registerForm.get('numTel')?.hasError('pattern')
+          modifForm.get('numTel')?.touched &&
+          modifForm.get('numTel')?.hasError('pattern')
         "
       >
         Please enter a valid phone number.
       </p>
     </div>
     <div>
-      <label for="img">Photo (Non requis)</label>
-      <input type="file" formControlName="img" accept="image/png, image/jpeg"/>
+      <label for="photo">Photo (Non requis)</label>
+      <input type="text" formControlName="photo" />
     </div>
     <div class="group">
-      <button type="submit" [disabled]="!registerForm.valid">
+      <button type="submit" [disabled]="!modifForm.valid">
         {{ loading ? "Loading..." : "Submit" }}
       </button>
     </div>
   </form>
 </fieldset>
 <app-loader *ngIf="loading"></app-loader>
-<div><h1><a routerLink="/reservations/{{ adherent.id }}">Voir vos réservation</a></h1></div>

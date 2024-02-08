@@ -133,7 +133,54 @@ export class ApiService {
     });
   }
 
-  // TODO: TO MODIFY WITH ADHERENT CLASS
+  /**
+   * Modify the user
+   * @param email the email of the user
+   * @param password the password of the user
+   * @param birthDate the birth date of the user
+   * @param firstname the first name of the user
+   * @param lastname the last name of the user
+   * @param address the address of the user
+   * @param country the country of the user
+   * @param phone the phone number of the user
+   * @returns Observable<Utilisateur> the user
+   */
+  public modifierAdherent({
+    email,
+    password,
+    dateNaiss,
+    prenom,
+    nom,
+    adressePostale,
+    pays,
+    numTel,
+    photo,
+  }: {
+    id: number;
+    email: string;
+    password: string;
+    dateNaiss: string;
+    prenom: string;
+    nom: string;
+    adressePostale: string;
+    pays: string;
+    numTel: string;
+    photo?: string;
+  }): Observable<Utilisateur> {
+    adressePostale = adressePostale + ', ' + pays;
+    dateNaiss = new Date(dateNaiss).toISOString();
+    return this.http.put<Utilisateur>(`${this.baseUrl}/adherent/modif`, {
+      email,
+      password,
+      dateNaiss,
+      prenom,
+      nom,
+      adressePostale,
+      numTel,
+      photo,
+    });
+  }
+
   /**
    * Get the user by id
    * @param token the token of the user
