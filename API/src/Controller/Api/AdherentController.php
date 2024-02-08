@@ -34,10 +34,16 @@ class AdherentController extends AbstractController
 
 
     //put pour modif
-    #[Route('/api/adherent/modif/{id}', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, Adherent $adherent): JsonResponse
+    #[Route('/api/adherent/modif', methods: ['PUT'])]
+    public function update(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
+        $utilisateur = $this->getUser();
+        if (!$utilisateur instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $utilisateur->getEst();
 
         // Mise à jour des informations de l'utilisateur lié à l'adhérent
         $utilisateur = $adherent->getUtilisateur();
@@ -54,12 +60,9 @@ class AdherentController extends AbstractController
         // Mise à jour de la date de modification
         $utilisateur->setUpdatedAt(new DateTimeImmutable("now"));
 
-        // Mise à jour de la date d'adhésion de l'adhérent
-        $adherent->setDateAdhesion(new DateTimeImmutable("now"));
-
         $entityManager->flush();
 
-        return $this->json($adherent, JsonResponse::HTTP_OK);
+        return $this->json($adherent, JsonResponse::HTTP_OK , [], ['groups' => 'adherent:read']);
     }
 
     //get adherent précis // pas d'authentification
