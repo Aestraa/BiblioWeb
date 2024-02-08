@@ -14,6 +14,7 @@ export class ShowLivreComponent {
   livre: Livre | null = null;
   loading = false;
   reservationForm: FormGroup;
+  reserved = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,11 +50,12 @@ export class ShowLivreComponent {
     if (this.reservationForm.valid) {
       this.api
         .postReservation({
-          ...this.reservationForm.value,
+          Livre: this.reservationForm.value.id,
           token: this.auth.token,
         })
         .subscribe(() => {
           this.router.navigate(['/reservations']);
+          this.reserved = true;
         });
     }
   }

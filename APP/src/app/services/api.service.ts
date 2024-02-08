@@ -195,17 +195,17 @@ export class ApiService {
    * @returns Observable<Reservation> the reservation
    */
   public postReservation({
-    livre,
+    Livre,
     token,
   }: {
-    livre: number;
+    Livre: number;
     token: string;
   }): Observable<Reservation> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<Reservation>(
-      `${this.baseUrl}/reservations`,
+      `${this.baseUrl}/reservation`,
       {
-        livre,
+        Livre,
         token,
       },
       { headers }
