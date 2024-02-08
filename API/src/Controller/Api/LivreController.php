@@ -23,20 +23,25 @@ class LivreController extends AbstractController
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
 
-    #[Route('/api/livre/search/{query}', methods: ['GET'])]
-    public function searchByTitle(Request $request, string $query, LivreRepository $livreRepository): JsonResponse
+    #[Route('/api/livre/search', methods: ['GET'])]
+    public function searchBy(Request $request, LivreRepository $livreRepository): JsonResponse
     {
-        $query = $query ?? null;
 
-        if (!$query) {
-            return $this->json(['message' => 'Parameter "query" is required.'], JsonResponse::HTTP_BAD_REQUEST);
-        }
+        // Récupérer les paramètres de recherche de la requête
+        $categorie = $request->query->get('categorie');
+        $titre = $request->query->get('titre');
+        $auteurNom = $request->query->get('auteur_nom');
+        $auteurPrenom = $request->query->get('auteur_prenom');
+        $dateSortie = $request->query->get('date_sortie');
+        $dateSortie = $dateSortie ? new DateTime($dateSortie) : null;
+        $langue = $request->query->get('langue');
 
-        $livres = $livreRepository->findByPartialTitle($query);
-
+        // Effectuer la recherche en utilisant les paramètres fournis
+        $livres = $livreRepository->findByMultipleCriteria($categorie, $titre, $auteurNom, $auteurPrenom, $dateSortie, $langue);
+        
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
-
+  
     #[Route('/api/livre/{id}', methods: ['GET'])]
     public function show(int $id, LivreRepository $livreRepository): JsonResponse
     {
@@ -48,7 +53,6 @@ class LivreController extends AbstractController
 
         return $this->json($livre, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
-
 
     #[Route('/api/livre', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse

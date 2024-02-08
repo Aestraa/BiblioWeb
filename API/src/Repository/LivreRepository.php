@@ -46,12 +46,45 @@ class LivreRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findByPartialTitle(string $query)
+    public function findByMultipleCriteria(string $categorie = null, string $titre = null, string $auteurNom = null, string $auteurPrenom = null, \DateTimeInterface $dateSortie = null, string $langue = null): array
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.titre LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
-            ->getQuery()
-            ->getResult();
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->select('l')
+            ->leftJoin('l.categories', 'c') // Assurez-vous que l'association categories est correctement configurée dans votre entité Livre
+            ->leftJoin('l.auteurs', 'a'); // Assurez-vous que l'association auteurs est correctement configurée dans votre entité Livre
+
+        if ($categorie !== null && $categorie !== '') {
+            $queryBuilder->andWhere('c.nom = :categorie')
+                ->setParameter('categorie', $categorie);
+        }
+
+        if ($titre !== null && $titre !== '') { 
+            // Si le titre est incomplet, recherchez les livres dont le titre contient la sous-chaîne fournie
+            $queryBuilder->andWhere('l.titre LIKE :titre')
+                ->setParameter('titre', '%' . $titre . '%');
+        }
+
+        if ($auteurNom !== null && $auteurNom !== '') {
+            $queryBuilder->andWhere('a.nom = :auteurNom')
+                ->setParameter('auteurNom', $auteurNom);
+        }
+
+        if ($auteurPrenom !== null && $auteurPrenom !== '') {
+            $queryBuilder->andWhere('a.prenom = :auteurPrenom')
+                ->setParameter('auteurPrenom', $auteurPrenom);
+        }
+
+        if ($dateSortie !== null && $dateSortie !== '') {
+            $queryBuilder->andWhere('l.dateSortie >= :dateSortie')
+                ->setParameter('dateSortie', $dateSortie);
+        }
+
+        if ($langue !== null && $langue !== '') {
+            $queryBuilder->andWhere('l.langue = :langue')
+                ->setParameter('langue', $langue);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
+
 }

@@ -22,13 +22,32 @@ class ReservationsController extends AbstractController
     #[Route('/api/reservations', methods: ['GET'])]
     public function index(ReservationsRepository $reservationRepository): JsonResponse
     {
-        $reservations = $reservationRepository->findAll();
+        // recherche avec le token
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+
+        $reservations = $reservationRepository->findByID($adherent->getId());
         return $this->json($reservations, 200, [], ['groups' => 'reservation:read']);
     }
 
     #[Route('/api/reservation', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function create(Request $request, EntityManagerInterface $entityManager,ReservationsRepository $reservationRepository): JsonResponse
+    {   
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
+
+        $reservations = $reservationRepository->findByID($adherent->getId());
+
+        if(count($reservations) >= 3){
+            return $this->json(['message' => 'Vous avez déjà 3 réservations en cours'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
         $data = json_decode($request->getContent(), true);
 
         $reservation = new Reservations();
@@ -54,15 +73,13 @@ class ReservationsController extends AbstractController
         $entityManager->persist($reservation);
         $entityManager->flush();
 
-        return $this->json($reservation, JsonResponse::HTTP_CREATED, ['groups' => 'reservation:read']);
+        return $this->json($reservation, JsonResponse::HTTP_CREATED, [], ['groups' => 'reservation:read']);
     }
 
-    #[Route('/api/reservation', methods: ['DELETE'])]
-    public function cancel(Request $request, ReservationsRepository $reservationsRepository, EntityManagerInterface $entityManager): JsonResponse
+    #[Route('/api/reservation/{id}', methods: ['DELETE'])]
+    public function cancel(Request $request, int $id, ReservationsRepository $reservationsRepository, EntityManagerInterface $entityManager): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-
-        $reservation = $reservationsRepository->find($data['id']);
+        $reservation = $reservationsRepository->find($id);
 
         // Si la réservation n'existe pas, retourner une erreur
         if (!$reservation) {
@@ -81,7 +98,7 @@ class ReservationsController extends AbstractController
         ];
         
         // Si l'utilisateur n'est pas l'auteur de la réservation, retourner une erreur
-        if ($reservation->getFaire()->getId() !== $user->getId()) {
+        if ($reservation->getFaire()->getUtilisateur()->getId() !== $user->getId()) {
             return $this->json([
                 'message' => 'Vous n\'êtes pas autorisé à annuler cette réservation',
                 'debug' => $debugInfo,  // Ajoutez les informations de débogage ici

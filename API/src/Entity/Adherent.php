@@ -17,7 +17,7 @@ class Adherent
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['adherent:read', 'emprunt:read'])]
+    #[Groups(['adherent:read', 'emprunt:read','reservation:read'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -25,12 +25,12 @@ class Adherent
     private ?\DateTimeInterface $dateAdhesion = null;
 
     #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
-    #[Groups(['emprunt:read', 'emprunt:write'])]
+    #[Groups(['emprunt:read', 'emprunt:write', 'adherent:read'])]
     #[SerializedName('emprunts')]
     private Collection $emprunts;
 
     #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class)]
-    #[Groups(['reservation:read', 'reservation:write'])]
+    #[Groups(['adherent:read'])]
     private Collection $reservations;
 
     #[ORM\OneToOne(mappedBy: 'est', cascade: ['persist', 'remove'])]

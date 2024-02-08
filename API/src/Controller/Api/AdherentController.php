@@ -63,11 +63,17 @@ class AdherentController extends AbstractController
     }
 
     //get adherent précis // pas d'authentification
-    #[Route('/api/adherent/{id}', methods: ['GET'])]
-    public function getById(Adherent $adherent): JsonResponse
+    #[Route('/api/adherent', methods: ['GET'])]
+    public function getById(Request $request): JsonResponse
     {
         // Vous pouvez accéder directement à l'adhérent grâce à l'injection de dépendances
         // Symfony chargera l'adhérent correspondant à l'ID passé dans l'URL
+        // recherche avec le token
+        $user = $this->getUser();
+        if (!$user instanceof Utilisateur) {
+            throw new \LogicException('L\'objet User n\'est pas de la classe attendue ou est null.');
+        }
+        $adherent = $user->getEst();
 
         // Vérifiez si l'adhérent existe
         if (!$adherent) {

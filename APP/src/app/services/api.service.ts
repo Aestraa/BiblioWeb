@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Adherent } from '../models/adherent';
 import { Livre } from '../models/livre';
 import { Reservation } from '../models/reservation';
 import { Utilisateur } from '../models/utilisateur';
@@ -31,14 +32,37 @@ export class ApiService {
   public getLivres(): Observable<Livre[]> {
     return this.http.get<Livre[]>(`${this.baseUrl}/livres`);
   }
-
   /**
    * Get livre by name, author or category
-   * @param search String to search
+   * @param titre the title of the book
+   * @param categorie the category of the book
+   * @param auteur the author of the book
+   * @param date_sortie the release date of the book
+   * @param langue the language of the book
    * @returns Observable<Livre[]> Livres
    */
-  public searchLivre(search: string): Observable<Livre[]> {
-    return this.http.get<Livre[]>(`${this.baseUrl}/livre/search/${search}`);
+  public searchLivre({
+    titre,
+    categorie,
+    auteur,
+    date_sortie,
+    langue,
+  }: {
+    titre: string;
+    categorie: string;
+    auteur: string;
+    date_sortie: string;
+    langue: string;
+  }): Observable<Livre[]> {
+    return this.http.get<Livre[]>(`${this.baseUrl}/livre/search`, {
+      params: {
+        titre,
+        categorie,
+        auteur,
+        date_sortie,
+        langue,
+      },
+    });
   }
 
   public getLivre(id: number): Observable<Livre> {
@@ -112,21 +136,14 @@ export class ApiService {
   // TODO: TO MODIFY WITH ADHERENT CLASS
   /**
    * Get the user by id
-   * @param id the id of the user
    * @param token the token of the user
    * @returns Observable<Utilisateur> the user
    */
-  public getAdherent({
-    id,
-    token,
-  }: {
-    id: number;
-    token: string;
-  }): Observable<Utilisateur> {
+  public getAdherent({ token }: { token: string }): Observable<Adherent> {
     // add the token in the header
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     // return the user
-    return this.http.get<Utilisateur>(`${this.baseUrl}/adherent/${id}`, {
+    return this.http.get<Adherent>(`${this.baseUrl}/adherent`, {
       headers,
     });
   }
@@ -195,17 +212,17 @@ export class ApiService {
    * @returns Observable<Reservation> the reservation
    */
   public postReservation({
-    livre,
+    Livre,
     token,
   }: {
-    livre: number;
+    Livre: number;
     token: string;
   }): Observable<Reservation> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<Reservation>(
-      `${this.baseUrl}/reservations`,
+      `${this.baseUrl}/reservation`,
       {
-        livre,
+        Livre,
         token,
       },
       { headers }
@@ -229,45 +246,6 @@ export class ApiService {
     });
   }
 
-  // TODO: ADAPT WITH API
-  /**
-   * Get the reservations of the user
-   * @param id the id of the reservation
-   * @param date_resa the date of the reservation
-   * @param date_resa_fin the end date of the reservation
-   * @param livre the book of the reservation
-   * @param adherent the user of the reservation
-   * @param token the token of the user
-   * @returns Observable<Reservation> the reservationbearer:
-   */
-  public putReservation({
-    id,
-    date_resa,
-    date_resa_fin,
-    livre,
-    adherent,
-    token,
-  }: {
-    id: number;
-    date_resa: Date;
-    date_resa_fin: Date;
-    livre: Livre;
-    adherent: Utilisateur;
-    token: string;
-  }): Observable<Reservation> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<Reservation>(
-      `${this.baseUrl}/reservations/${id}`,
-      {
-        date_resa,
-        date_resa_fin,
-        livre,
-        adherent,
-      },
-      { headers }
-    );
-  }
-
   /**
    * Get the reservations of the user
    * @param id the id of the reservation
@@ -282,7 +260,7 @@ export class ApiService {
     token: string;
   }): Observable<Reservation> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete<Reservation>(`${this.baseUrl}/reservations/${id}`, {
+    return this.http.delete<Reservation>(`${this.baseUrl}/reservation/${id}`, {
       headers,
     });
   }

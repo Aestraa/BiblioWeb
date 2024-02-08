@@ -14,6 +14,8 @@ export class ShowLivreComponent {
   livre: Livre | null = null;
   loading = false;
   reservationForm: FormGroup;
+  toManyReservation = false;
+  myReservations: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,6 +34,23 @@ export class ShowLivreComponent {
     if (id === null || isNaN(id)) {
       this.router.navigate(['/livres']);
     } else {
+      this.api.getAdherent({ token: this.auth.token }).subscribe(
+        (adherent) => {
+          if ((adherent.reservations.length ?? 0) >= 3) {
+            this.toManyReservation = true;
+            if (adherent.reservations.find((r) => r.Lier.id === id)) {
+              this.myReservations = true;
+              console.log(this.myReservations);
+            }
+            this.loading = false;
+          }
+        },
+        () => {
+          this.toManyReservation = true;
+          this.loading = false;
+        }
+      );
+
       this.api.getLivre(id).subscribe(
         (data) => {
           this.livre = data;
@@ -46,15 +65,23 @@ export class ShowLivreComponent {
   }
 
   onSubmit() {
+    this.loading = true;
     if (this.reservationForm.valid) {
       this.api
         .postReservation({
-          ...this.reservationForm.value,
+          Livre: this.reservationForm.value.id,
           token: this.auth.token,
         })
-        .subscribe(() => {
-          this.router.navigate(['/reservations']);
-        });
+        // error message
+        .subscribe(
+          () => {
+            this.router.navigate(['/livres']);
+          },
+          () => {
+            this.toManyReservation = true;
+            this.loading = false;
+          }
+        );
     }
   }
 }

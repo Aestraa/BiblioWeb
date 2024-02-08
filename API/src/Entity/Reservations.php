@@ -16,30 +16,30 @@ class Reservations
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['livre:read','adherent:write','reservation:read','reservation:write'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write','livre:read'])]
     private ?\DateTime $dateResa = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[Groups(['reservation:read','reservation:write'])]
     private ?Adherent $Faire = null;
 
-    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reservations')]
     #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
     private ?Livre $Lier = null;
 
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write','livre:read'])]
     private ?\DateTime $dateResaFin = null;
 
     #[ORM\Column]
-    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['adherent:read','adherent:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
