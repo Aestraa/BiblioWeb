@@ -21,7 +21,7 @@ class Categorie
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'categories', fetch: 'LAZY')]
     private Collection $Appartenir;
 
     public function __construct()

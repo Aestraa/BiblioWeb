@@ -28,16 +28,16 @@ class Livre
     #[ORM\Column(length: 255)]
     private ?string $photoCouverture = null;
 
-    #[ORM\OneToMany(mappedBy: 'Correspondre', targetEntity: Emprunt::class)]
+    #[ORM\OneToMany(mappedBy: 'Correspondre', targetEntity: Emprunt::class, fetch : 'LAZY')]
     private Collection $emprunts;
 
-    #[ORM\OneToOne(mappedBy: 'Lier', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'Lier', cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private ?Reservations $reservations = null;
 
-    #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'Ecrire')]
+    #[ORM\ManyToMany(targetEntity: Auteur::class, mappedBy: 'Ecrire', fetch: 'LAZY')]
     private Collection $auteurs;
 
-    #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'Appartenir')]
+    #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'Appartenir', fetch: 'LAZY')]
     private Collection $categories;
 
     public function __construct()

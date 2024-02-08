@@ -37,13 +37,13 @@ class Adherent
     #[ORM\Column(length: 255)]
     private ?string $numTel = null;
 
-    #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier')]
+    #[ORM\ManyToMany(targetEntity: Emprunt::class, mappedBy: 'Relier', fetch: 'LAZY')]
     private Collection $emprunts;
 
     #[ORM\Column(length: 255)]
     private ?string $photo = null;
 
-    #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class)]
+    #[ORM\OneToMany(mappedBy: 'Faire', targetEntity: Reservations::class, fetch: 'LAZY')]
     private Collection $reservations;
 
     public function __construct()

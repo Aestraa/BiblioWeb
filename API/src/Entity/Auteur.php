@@ -37,7 +37,7 @@ class Auteur
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'auteurs')]
+    #[ORM\ManyToMany(targetEntity: Livre::class, inversedBy: 'auteurs', fetch: 'LAZY')]
     private Collection $Ecrire;
 
     public function __construct()

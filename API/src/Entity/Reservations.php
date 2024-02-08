@@ -17,10 +17,10 @@ class Reservations
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateResa = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[ORM\ManyToOne(inversedBy: 'reservations', fetch: 'LAZY')]
     private ?Adherent $Faire = null;
 
-    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reservations', cascade: ['persist', 'remove'], fetch: 'LAZY')]
     private ?Livre $Lier = null;
 
     public function getId(): ?int

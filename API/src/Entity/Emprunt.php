@@ -22,10 +22,10 @@ class Emprunt
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateRetour = null;
 
-    #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts')]
+    #[ORM\ManyToMany(targetEntity: Adherent::class, inversedBy: 'emprunts', fetch: 'LAZY')]
     private Collection $Relier;
 
-    #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[ORM\ManyToOne(inversedBy: 'emprunts', fetch: 'LAZY')]
     private ?Livre $Correspondre = null;
 
     public function __construct()
