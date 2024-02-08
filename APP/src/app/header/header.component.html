@@ -20,13 +20,16 @@
             <a routerLink="/auth/login">Se connecter</a>
           </li>
           <li *ngIf="auth.isLogged">
-            <a routerLink="/compte">Mon profile</a>
+            <a routerLink="/adherent/{{auth.token}}">Mon profile</a>
           </li>
           <li *ngIf="auth.isLogged">
             <a (click)="auth.logout()">Se déconnecter</a>
           </li>
           <li *ngIf="auth.isLogged">
             <a routerLink="/reservations">Mes réservations</a>
+          </li>
+          <li *ngIf="auth.isLogged">
+            <a routerLink="/adherent">Gestion du compe</a>
           </li>
         </ul>
       </div>

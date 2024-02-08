@@ -1,5 +1,11 @@
+<div *ngIf="adherent == undefined">
+  <p>Aucun adherent</p>
+</div>
+<div *ngIf="!loading && adherent != undefined">
+  <h1> Bienvenue {{ adherent.utilisateur.nom }}</h1>
+</div>
 <fieldset>
-  <legend>Register</legend>
+  <legend>Modifier</legend>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div>
       <label for="email">Email</label>
@@ -128,62 +134,11 @@
       <input type="file" formControlName="img" accept="image/png, image/jpeg"/>
     </div>
     <div class="group">
-      <div>
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" />
-        <p
-          class="small"
-          *ngIf="
-            registerForm.get('password')?.touched &&
-            registerForm.get('password')?.hasError('required')
-          "
-        >
-          Password is required.
-        </p>
-        <p
-          class="small"
-          *ngIf="
-            registerForm.get('password')?.touched &&
-            registerForm.get('password')?.hasError('minlength')
-          "
-        >
-          Password must be at least 6 characters long.
-        </p>
-      </div>
-      <div>
-        <label for="cpassword">Confirm password</label>
-        <input type="password" formControlName="cpassword" />
-        <p
-          class="small"
-          *ngIf="
-            registerForm.get('cpassword')?.touched &&
-            registerForm.get('cpassword')?.hasError('required')
-          "
-        >
-          Confirm password is required.
-        </p>
-        <p
-          class="small"
-          *ngIf="
-            registerForm.get('cpassword')?.touched &&
-            registerForm.errors?.['mismatch']
-          "
-        >
-          Passwords must match.
-        </p>
-      </div>
-    </div>
-    <div>
       <button type="submit" [disabled]="!registerForm.valid">
         {{ loading ? "Loading..." : "Submit" }}
       </button>
     </div>
   </form>
-  <div>
-    <p>
-      Already have an account? You can login yourself
-      <a routerLink="/auth/login">here!</a>
-    </p>
-  </div>
 </fieldset>
 <app-loader *ngIf="loading"></app-loader>
+<div><h1><a routerLink="/reservations/{{ adherent.id }}">Voir vos réservation</a></h1></div>
