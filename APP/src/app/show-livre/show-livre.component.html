@@ -41,11 +41,23 @@
           {{ livre.reservations.dateResaFin | date : "dd/MM/yyyy" }}
         </div>
       </div>
-      <!-- TODO: Check if the user is logged -->
+      <p *ngIf="toManyReservation && !myReservations" class="error">
+        Vous avez trop de réservation, annuler une réservation pour en faire une
+      </p>
+      <p *ngIf="myReservations" class="error">
+        Vous avez déjà réservé ce livre
+      </p>
+      <a
+        routerLink="/reservations"
+        *ngIf="toManyReservation && auth.isLogged && !myReservations"
+        >Voir mes réservations</a
+      >
       <form
         [formGroup]="reservationForm"
         (ngSubmit)="onSubmit()"
-        *ngIf="auth.isLogged && livre.reservations === null"
+        *ngIf="
+          auth.isLogged && livre.reservations === null && !toManyReservation
+        "
       >
         <input type="hidden" formControlName="id" [value]="livre.id" />
         <button type="submit" [disabled]="!reservationForm.valid">

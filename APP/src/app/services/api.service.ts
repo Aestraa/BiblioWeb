@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Adherent } from '../models/adherent';
 import { Livre } from '../models/livre';
 import { Reservation } from '../models/reservation';
 import { Utilisateur } from '../models/utilisateur';
@@ -135,21 +136,14 @@ export class ApiService {
   // TODO: TO MODIFY WITH ADHERENT CLASS
   /**
    * Get the user by id
-   * @param id the id of the user
    * @param token the token of the user
    * @returns Observable<Utilisateur> the user
    */
-  public getAdherent({
-    id,
-    token,
-  }: {
-    id: number;
-    token: string;
-  }): Observable<Utilisateur> {
+  public getAdherent({ token }: { token: string }): Observable<Adherent> {
     // add the token in the header
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     // return the user
-    return this.http.get<Utilisateur>(`${this.baseUrl}/adherent/${id}`, {
+    return this.http.get<Adherent>(`${this.baseUrl}/adherent`, {
       headers,
     });
   }
