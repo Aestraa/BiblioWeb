@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { HeadercssService } from '../headercss.service';
 import { AuthService } from '../services/auth.service';
 
@@ -13,7 +14,8 @@ export class HeaderComponent {
 
   constructor(
     private headercssService: HeadercssService,
-    public auth: AuthService
+    public auth: AuthService,
+    private router: Router
   ) {}
 
   onScroll(event: Event) {
@@ -26,5 +28,10 @@ export class HeaderComponent {
       : scrollOffset;
 
     this.isSticky = adjustedScrollOffset >= 410;
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }

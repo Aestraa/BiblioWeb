@@ -23,9 +23,7 @@
             <a routerLink="/compte">Mon profile</a>
           </li>
           <li *ngIf="auth.isLogged">
-            <a (click)="auth.logout()" style="cursor: pointer"
-              >Se déconnecter</a
-            >
+            <a (click)="logout()" style="cursor: pointer">Se déconnecter</a>
           </li>
           <li *ngIf="auth.isLogged">
             <a routerLink="/reservations">Mes réservations</a>
