@@ -53,9 +53,6 @@
           Réserver
         </button>
       </form>
-      <p *ngIf="reserved && livre.reservations.length === 0">
-        Réservation effectuée
-      </p>
       <a routerLink="/auth/login" *ngIf="!auth.isLogged"
         >Connectez-vous pour réserver</a
       >
