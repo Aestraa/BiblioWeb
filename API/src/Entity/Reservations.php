@@ -16,10 +16,11 @@ class Reservations
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['livre:read','adherent:write','reservation:read','reservation:write'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write','livre:read'])]
     private ?\DateTime $dateResa = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
@@ -32,7 +33,7 @@ class Reservations
 
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write'])]
+    #[Groups(['adherent:read','adherent:write','reservation:read','reservation:write','livre:read'])]
     private ?\DateTime $dateResaFin = null;
 
     #[ORM\Column]
