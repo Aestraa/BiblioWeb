@@ -4,13 +4,20 @@
       type="text"
       formControlName="search"
       placeholder="Rechercher un livre"
+      (change)="onChange($event)"
     />
     <button type="submit">Rechercher</button>
   </form>
   <div *ngIf="livres.length === 0">
     <p>Aucun livre trouvé</p>
   </div>
-  <div class="livres">
-    <div *ngFor="let livre of livres" app-livre [livre]="livre"></div>
+  <div *ngIf="loading">
+    <app-loader></app-loader>
+  </div>
+  <div *ngIf="!loading && livres.length > 0">
+    <p>{{ livres.length }} livre(s) trouvé(s)</p>
+    <div class="livres">
+      <div *ngFor="let livre of livres" app-livre [livre]="livre"></div>
+    </div>
   </div>
 </section>

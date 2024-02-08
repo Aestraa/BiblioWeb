@@ -18,7 +18,9 @@ fieldset legend {
   color: var(--secondary);
   margin-bottom: 10px;
   text-align: center;
-  padding: 0px 10px;
+  padding: 0px 10px !important;
+  border-bottom: none !important;
+  width: fit-content;
 }
 
 fieldset form div {
@@ -104,4 +106,11 @@ fieldset div p.small {
   font-size: 1em;
   color: var(--red);
   text-align: start;
+}
+
+p.error {
+  font-size: 1.2em;
+  color: var(--red);
+  text-align: center;
+  margin-top: 10px;
 }

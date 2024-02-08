@@ -81,6 +81,18 @@ class LivreController extends AbstractController
 
         return $this->json($livres, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
     }
+  
+    #[Route('/api/livre/{id}', methods: ['GET'])]
+    public function show(int $id, LivreRepository $livreRepository): JsonResponse
+    {
+        $livre = $livreRepository->find($id);
+
+        if (!$livre) {
+            return $this->json(['message' => 'Livre not found.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($livre, JsonResponse::HTTP_OK, [], ['groups' => 'livre:read']);
+    }
 
     #[Route('/api/livre', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse

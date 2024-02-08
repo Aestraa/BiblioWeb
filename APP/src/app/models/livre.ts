@@ -29,6 +29,6 @@ export class Livre {
     public emprunts: Emprunt[] = [],
     public auteurs: Auteur[] = [],
     public categories: Categorie[] = [],
-    public reservation: Reservation | null = null
+    public reservations: Reservation[] = []
   ) {}
 }

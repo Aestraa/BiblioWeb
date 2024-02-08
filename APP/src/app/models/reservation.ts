@@ -25,6 +25,6 @@ export class Reservation {
     if (adherent.reservations.length >= 3)
       throw new Error('Un adhérent ne peut pas réserver plus de 3 livres');
     adherent.reservations.push(this);
-    livre.reservation = this;
+    livre.reservations.push(this);
   }
 }

@@ -10,8 +10,12 @@ import { LoginComponent } from './authentification/login/login.component';
 import { RegisterComponent } from './authentification/register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { HeadercssService } from './headercss.service';
-import { LivresComponent } from './livres/livres.component';
 import { LivreComponent } from './livres/livre/livre.component';
+import { LivresComponent } from './livres/livres.component';
+import { LoaderComponent } from './loader/loader.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { ShowLivreComponent } from './show-livre/show-livre.component';
+import { ReservationComponent } from './reservations/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +26,10 @@ import { LivreComponent } from './livres/livre/livre.component';
     RegisterComponent,
     LivresComponent,
     LivreComponent,
+    LoaderComponent,
+    ShowLivreComponent,
+    ReservationsComponent,
+    ReservationComponent,
   ],
   imports: [
     BrowserModule,

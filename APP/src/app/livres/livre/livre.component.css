@@ -1,62 +1,76 @@
-div.livre {
+a.livre {
+  position: relative;
   display: flex;
-  flex-flow: row nowrap;
-  padding: 20px;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding: 10px;
   border: 1px solid var(--secondary);
   border-radius: 5px;
-  height: 200px;
+  width: 250px;
+  height: fit-content;
+  gap: 5px;
+  transition-duration: 0.3s;
+}
+
+a.livre:hover {
+  box-shadow: 0 0 10px var(--secondary);
+  transform: scale(1.05);
+}
+
+a.livre div.cover {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  height: 60%;
   width: 100%;
 }
 
-div.livre div.cover {
-  height: 100%;
-  width: 120px;
-  margin-right: 20px;
-}
-
-div.livre div.cover img {
+a.livre div.cover img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   border-radius: 5px;
 }
 
-div.livre div.info {
+a.livre div.info {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
   width: 100%;
 }
 
-div.livre div.info div h2 {
-  font-size: 2em;
+a.livre div.info div h2 {
+  font-size: 1.5em;
 }
 
-div.livre div.info div p span.author {
+a.livre div.info div p span.author {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
-div.livre div.info div p span.category {
+a.livre div.info div p span.category {
   font-style: italic;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
-div.livre div.info div p span.comma::after {
+a.livre div.info div p span.comma::after {
   content: ",";
 }
 
-div.livre div.info div p span.comma:last-child:after {
+a.livre div.info div p span.comma:last-child:after {
   content: "";
 }
 
-div.livre div.details {
+a.livre div.details {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
-div.livre div.details p {
+a.livre div.details p {
   font-size: 1.2em;
 }
