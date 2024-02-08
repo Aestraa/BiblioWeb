@@ -189,11 +189,14 @@ class Livre
 
     public function addCategory(Categorie $category): static
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-            $category->addAppartenir($this);
+        if (count($this->categories) < 3) {
+            if (!$this->categories->contains($category)) {
+                $this->categories->add($category);
+                $category->addAppartenir($this);
+            }
+        } else {
+            throw new \Exception("Un adhérent ne peut pas avoir plus de 3 catégories.");
         }
-
         return $this;
     }
 

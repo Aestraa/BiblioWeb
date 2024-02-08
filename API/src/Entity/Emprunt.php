@@ -97,4 +97,11 @@ class Emprunt
 
         return $this;
     }
+
+    // Définie dateEmprunt à la date d'aujourd'hui si aucune valeur n'est donnée ou null. 
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->dateEmprunt = $this->dateEmprunt ?? new \DateTime();
+    }
 }

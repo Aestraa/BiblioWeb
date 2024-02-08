@@ -2,52 +2,52 @@
 
 namespace App\Entity;
 
-use App\Repository\UtilisateurRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UtilisateurRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_naiss = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $adresse_postale = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $num_tel = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photo = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $roles = null;
+    private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private ?string $adressePostale = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $numTel = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $photo = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private array $roles = [];
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\OneToOne(inversedBy: 'utilisateur', cascade: ['persist', 'remove'])]
+    private ?Adherent $est = null;
 
     public function getId(): ?int
     {
@@ -66,7 +66,7 @@ class Utilisateur
         return $this->email;
     }
 
-    public function setEmail(?string $email): static
+    public function setEmail(string $email): static
     {
         $this->email = $email;
 
@@ -78,7 +78,7 @@ class Utilisateur
         return $this->nom;
     }
 
-    public function setNom(?string $nom): static
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
@@ -90,7 +90,7 @@ class Utilisateur
         return $this->prenom;
     }
 
-    public function setPrenom(?string $prenom): static
+    public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
 
@@ -99,36 +99,36 @@ class Utilisateur
 
     public function getDateNaiss(): ?\DateTimeInterface
     {
-        return $this->date_naiss;
+        return $this->dateNaiss;
     }
 
-    public function setDateNaissance(\DateTimeInterface $dateNaissance): static
+    public function setDateNaiss(\DateTimeInterface $dateNaiss): static
     {
-        $this->date_naiss = $date_naiss;
+        $this->dateNaiss = $dateNaiss;
 
         return $this;
     }
 
     public function getAdressePostale(): ?string
     {
-        return $this->adresse_postale;
+        return $this->adressePostale;
     }
 
-    public function setAdressePostale(?string $adresse_postale): static
+    public function setAdressePostale(string $adressePostale): static
     {
-        $this->adresse_postale = $adresse_postale;
+        $this->adressePostale = $adressePostale;
 
         return $this;
     }
 
     public function getNumTel(): ?string
     {
-        return $this->num_tel;
+        return $this->numTel;
     }
 
-    public function setNumTel(?string $num_tel): static
+    public function setNumTel(string $numTel): static
     {
-        $this->num_tel = $num_tel;
+        $this->numTel = $numTel;
 
         return $this;
     }
@@ -138,26 +138,46 @@ class Utilisateur
         return $this->photo;
     }
 
-    public function setPhoto(?string $photo): static
+    public function setPhoto(string $photo): static
     {
         $this->photo = $photo;
 
         return $this;
     }
 
-    public function getRoles(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->roles;
+        return (string) $this->email;
     }
 
-    public function setRoles(?string $roles): static
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -169,26 +189,23 @@ class Utilisateur
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
     {
-        return $this->created_at;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function getEst(): ?Adherent
     {
-        $this->created_at = $created_at;
-
-        return $this;
+        return $this->est;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function setEst(?Adherent $est): static
     {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
+        $this->est = $est;
 
         return $this;
     }
