@@ -41,7 +41,7 @@
           {{ livre.reservations.dateResaFin | date : "dd/MM/yyyy" }}
         </div>
       </div>
-      <p *ngIf="toManyReservation && !myReservations" class="error">
+      <p *ngIf="toManyReservation && !myReservations && auth.isLogged" class="error">
         Vous avez trop de réservation, annuler une réservation pour en faire une
       </p>
       <p *ngIf="myReservations" class="error">

@@ -17,7 +17,7 @@ export class ApiService {
   private PORT = 8008;
 
   // base url of the API
-  private baseUrl = `http://localhost:${this.PORT}/api`;
+  private baseUrl = `/api`;
 
   /**
    * Constructor
