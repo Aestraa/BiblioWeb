@@ -61,6 +61,7 @@ export class AdherentComponent implements OnInit {
 
   completeForm() {
     this.adresse = this.adherent.utilisateur.adressePostale.split(',');
+    this.adresse[1] = this.adresse[1] || '';
     this.date = new Date(this.adherent.utilisateur.dateNaiss)
       .toISOString()
       .split('T');
