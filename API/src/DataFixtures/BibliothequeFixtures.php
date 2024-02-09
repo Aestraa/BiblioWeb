@@ -13,9 +13,16 @@ use App\Entity\Utilisateur;
 use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class BibliothequeFixtures extends Fixture
 {
+
+    public function __construct(
+        private UserPasswordHasherInterface $encoder
+    ) {
+    }
+
     public function load(ObjectManager $manager): void
     {
         // création du faker
@@ -185,7 +192,22 @@ class BibliothequeFixtures extends Fixture
             }
             $manager->persist($livre);
         }
-        
+
+        // Crée un utilisateur admin
+        $admin = new Utilisateur();
+        $admin->setEmail("admin@admin.com");
+        $admin->setNom("admin");
+        $admin->setPrenom("admin");
+        $admin->setDateNaiss($faker->dateTimeBetween('-50 years', '-20 years'));
+        $admin->setAdressePostale($faker->address);
+        $admin->setNumTel($faker->phoneNumber);
+        $admin->setPhoto("https://picsum.photos/300/300?image=0");
+        $hash = $this->encoder->hashPassword($admin, "admin");
+        $admin->setPassword($hash);
+        $admin->setRoles(["ROLE_RESPONSABLE"]);
+        $admin->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-5 years', 'now')));
+        $manager->persist($admin);
+       
         // enregistrement des entités
         $manager->flush();
     }

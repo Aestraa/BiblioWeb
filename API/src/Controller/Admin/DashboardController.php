@@ -36,7 +36,7 @@ class DashboardController extends AbstractDashboardController
         $emprunts = $empruntsRepository->findAll();
         $empruntsParMois = [];
         foreach ($emprunts as $emprunt) {
-            $mois = $emprunt->getDateEmprunt()->format('d-m-Y');
+            $mois = $emprunt->getDateEmprunt()->format('Y');
             if (!isset($empruntsParMois[$mois])) {
                 $empruntsParMois[$mois] = 0;
             }
