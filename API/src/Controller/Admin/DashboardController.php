@@ -66,18 +66,31 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        // Votre configuration actuelle
+        
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Gestion des Livres');
         yield MenuItem::linkToCrud('Livres', 'fa fa-book', Livre::class);
         yield MenuItem::linkToCrud('Auteurs', 'fa fa-user', Auteur::class);
         yield MenuItem::linkToCrud('Catégories', 'fa fa-list', Categorie::class);
-        yield MenuItem::section('Gestion des Emprunts et Réservations');
-        yield MenuItem::linkToCrud('Emprunts', 'fa fa-book', Emprunt::class);
-        yield MenuItem::linkToCrud('Réservations', 'fa fa-book', Reservations::class);
-        yield MenuItem::section('Gestion des Adhérents');
-        yield MenuItem::linkToCrud('Adhérents', 'fa fa-book', Adherent::class);
-        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-book', Utilisateur::class);
-        yield MenuItem::section('Statistiques');
-        yield MenuItem::linkToRoute('Statistiques', 'fa fa-chart-bar', 'admin_stats');
+        
+        // Pour les BIBLIOTHECAIRES
+        if ($this->isGranted('ROLE_BIBLIOTHECAIRE')) {
+            yield MenuItem::section('Gestion des Emprunts et Réservations');
+            yield MenuItem::linkToCrud('Emprunts', 'fa fa-book', Emprunt::class);
+        }
+        
+        // Pour les RESPONSABLES
+        if ($this->isGranted('ROLE_RESPONSABLE')) {
+            yield MenuItem::section('Gestion des Emprunts et Réservations');
+            yield MenuItem::linkToCrud('Emprunts', 'fa fa-book', Emprunt::class);
+            yield MenuItem::linkToCrud('Réservations', 'fa fa-book', Reservations::class);
+            yield MenuItem::section('Gestion des Adhérents');
+            yield MenuItem::linkToCrud('Adhérents', 'fa fa-book', Adherent::class);
+            yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-book', Utilisateur::class);
+            yield MenuItem::section('Statistiques');
+            yield MenuItem::linkToRoute('Statistiques', 'fa fa-chart-bar', 'admin_stats');
+        }
+        
     }
 }
